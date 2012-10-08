@@ -1,11 +1,13 @@
 package data;
 
+import blocks.IBlock;
+
 public class Well implements IWell{
 	protected int height;
 	protected int width;
-	protected boolean[][] fullCells;
+	protected static boolean[][] fullCells;
 	
-	public boolean[][] getCells(){
+	public static boolean[][] getCells(){
 		return fullCells;
 	}
 	

@@ -4,7 +4,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import data.IBlock;
+import blocks.IBlock;
+
 import data.IWell;
 import data.Well;
 

@@ -1,6 +1,6 @@
 package algorithms;
 
-import data.IBlock;
+import blocks.IBlock;
 
 public interface IAlgorithm {
 	void setCurrentPiece(IBlock incomingPiece);

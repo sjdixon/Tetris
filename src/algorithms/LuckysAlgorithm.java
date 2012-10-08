@@ -1,6 +1,6 @@
 package algorithms;
 
-import data.IBlock;
+import blocks.IBlock;
 
 // Inspired by http://luckytoilet.wordpress.com/2011/05/27/coding-a-tetris-ai-using-a-genetic-algorithm/
 

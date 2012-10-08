@@ -1,5 +1,7 @@
 package data;
 
+import blocks.IBlock;
+
 public interface IWell {
 	boolean fillCell(int r, int c);
 	boolean emptyCell(int r, int c);
@@ -8,6 +10,5 @@ public interface IWell {
 	boolean deleteRow(int row);
 	boolean isRowFull(int r);
 	boolean doesBlockFit(IBlock b);
-	boolean[][] getCells();
 
 }
