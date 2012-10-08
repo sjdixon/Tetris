@@ -9,6 +9,6 @@ public interface IWell {
 	boolean isCellFull(int r, int c);
 	boolean deleteRow(int row);
 	boolean isRowFull(int r);
-	boolean doesBlockFit(IBlock b);
+	boolean isCellWithinBounds(int r, int c);
 
 }

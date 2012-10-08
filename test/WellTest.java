@@ -119,8 +119,17 @@ public class WellTest {
 		}
 		
 		@Test
-		public void testBlockFit(){
-			fail("Not implemented.");
+		public void placeIllegalCells(){
+			boolean[] actualResults = {
+					testObject.fillCell(0,-1),
+					testObject.fillCell(-1,0),
+					testObject.fillCell(height+1, 0),
+					testObject.fillCell(0, width+1)
+			};
+			for(int i=0; i < actualResults.length; i++){
+				boolean expectedResult = false;
+				assertEquals(expectedResult, actualResults[i]);
+			}
 		}
 		
 }

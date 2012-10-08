@@ -23,7 +23,7 @@ public class Well implements IWell{
 	}
 	
 	public boolean fillCell(int row, int column){
-		if(fullCells[row][column]==false){
+		if(isCellEmpty(row, column)==true){
 			fullCells[row][column] = true;
 			return true;
 		}
@@ -31,9 +31,25 @@ public class Well implements IWell{
 	}
 	
 	public boolean isCellEmpty(int row, int col){
-		if(fullCells[row][col]==false)
+		
+		if(isCellWithinBounds(row, col)==true && fullCells[row][col]==false)
 			return true;
 		else return false;
+	}
+	
+	public boolean isCellWithinBounds(int row, int col){
+		if(fullCells.length==0)
+			try {
+				throw new Exception("Array is empty!");
+			} catch (Exception e) {
+				System.err.println(e.getMessage());
+				e.printStackTrace();
+			}
+		if(row < 0 || col < 0)
+			return false;
+		if(row >= fullCells.length || col >= fullCells[0].length)
+			return false;
+		return true;
 	}
 	
 	public boolean isCellFull(int row, int col){
@@ -41,7 +57,7 @@ public class Well implements IWell{
 	}
 	
 	public boolean emptyCell(int row, int col){
-		if(fullCells[row][col]==true){
+		if(isCellFull(row, col)==true){
 			fullCells[row][col] = false;
 			return true;
 		}
@@ -67,7 +83,7 @@ public class Well implements IWell{
 	public boolean isRowFull(int row){
 		boolean isRowFull = true;
 		for(int i=0; i < fullCells[row].length; i++){
-			if(fullCells[row][i]==false){
+			if(isCellEmpty(row, i)==true){
 				isRowFull = false;
 				break;
 			}
@@ -75,7 +91,4 @@ public class Well implements IWell{
 		return isRowFull;
 	}
 	
-	public boolean doesBlockFit(IBlock b){
-		return false;
-	}
 }
