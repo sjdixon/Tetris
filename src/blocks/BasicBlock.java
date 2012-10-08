@@ -5,6 +5,14 @@ import data.Well;
 public abstract class BasicBlock implements IBlock{
 	protected Point[] points;
 
+	public Point[] getPoints() {
+		return points;
+	}
+
+	public void setPoints(Point[] points) {
+		this.points = points;
+	}
+
 	@Override
 	public boolean moveLeft(int x) {
 		int[] xValues = new int[points.length];

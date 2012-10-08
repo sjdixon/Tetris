@@ -132,5 +132,27 @@ public class WellTest {
 			}
 		}
 		
+		@Test
+		public void ToStringTest(){
+			boolean[][] expected = new boolean[height][];
+			for(int i=0; i < height; i++){
+				expected[i] = new boolean[width];
+				for(int j=0; j < i; j++)
+					expected[i][j] = false;
+				for(int j=i; j < width; j++){
+					testObject.fillCell(i,j);
+					expected[i][j] = true;
+				}
+			}
+			String expectedMessage = "" +
+				"false  false  false  false  true  true  \n" +
+				"false  false  false  true  true  true  \n" +  
+				"false  false  true  true  true  true  \n" +  
+				"false  true  true  true  true  true  \n" +
+				"true  true  true  true  true  true  \n";
+			String actualMessage = testObject.toString();
+			assertEquals(expectedMessage, actualMessage);
+		}
+		
 }
 

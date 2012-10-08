@@ -10,5 +10,7 @@ public interface IWell {
 	boolean deleteRow(int row);
 	boolean isRowFull(int r);
 	boolean isCellWithinBounds(int r, int c);
-
+	boolean[][] getCells();
+	int getWidth();
+	int getHeight();
 }

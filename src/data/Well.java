@@ -5,20 +5,38 @@ import blocks.IBlock;
 public class Well implements IWell{
 	protected int height;
 	protected int width;
-	protected static boolean[][] fullCells;
+	protected boolean[][] fullCells = null;
 	
-	public static boolean[][] getCells(){
+	public boolean[][] getCells(){
 		return fullCells;
 	}
 	
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
 	public Well(int height, int width){
 		this.height = height;
 		this.width = width;
-		fullCells = new boolean[height][];
-		for(int i=0; i < height; i++){
-			fullCells[i] = new boolean[width];
-			for(int j=0; j < width; j++)
-				fullCells[i][j] = false;
+		if(fullCells==null){
+			fullCells = new boolean[height][];
+			for(int i=0; i < height; i++){
+				fullCells[i] = new boolean[width];
+				for(int j=0; j < width; j++)
+					fullCells[i][j] = false;
+			}
 		}
 	}
 	
@@ -31,20 +49,12 @@ public class Well implements IWell{
 	}
 	
 	public boolean isCellEmpty(int row, int col){
-		
 		if(isCellWithinBounds(row, col)==true && fullCells[row][col]==false)
 			return true;
 		else return false;
 	}
 	
 	public boolean isCellWithinBounds(int row, int col){
-		if(fullCells.length==0)
-			try {
-				throw new Exception("Array is empty!");
-			} catch (Exception e) {
-				System.err.println(e.getMessage());
-				e.printStackTrace();
-			}
 		if(row < 0 || col < 0)
 			return false;
 		if(row >= fullCells.length || col >= fullCells[0].length)
@@ -91,4 +101,15 @@ public class Well implements IWell{
 		return isRowFull;
 	}
 	
+	@Override
+	public String toString(){
+		String matrix = "";
+		for(int i=fullCells.length-1; i >=0; i--){
+			for(int j=0; j < fullCells[i].length; j++){
+				matrix += fullCells[i][j] + "  ";
+			}
+			matrix += "\n";
+		}
+		return matrix;
+	}
 }

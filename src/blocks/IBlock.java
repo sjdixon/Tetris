@@ -7,4 +7,6 @@ public interface IBlock {
 	public boolean moveDown(int y);
 	public Point[] rotateLeft();
 	public Point[] rotateRight();
+	public Point[] getPoints();
+	public void setPoints(Point[] points);
 }
