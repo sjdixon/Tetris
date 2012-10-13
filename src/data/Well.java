@@ -75,7 +75,7 @@ public class Well implements IWell{
 	}
 	
 	
-	public boolean deleteRow(int row){
+	public boolean clearRow(int row){
 		boolean isRowFull = isRowFull(row);
 		if(isRowFull==true){
 			// Bring all the rows above the current one down a row

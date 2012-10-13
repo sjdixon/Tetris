@@ -7,7 +7,7 @@ public interface IWell {
 	boolean emptyCell(int r, int c);
 	boolean isCellEmpty(int r, int c);
 	boolean isCellFull(int r, int c);
-	boolean deleteRow(int row);
+	boolean clearRow(int row);
 	boolean isRowFull(int r);
 	boolean isCellWithinBounds(int r, int c);
 	boolean[][] getCells();
