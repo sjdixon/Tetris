@@ -1,5 +1,6 @@
 package blocks;
 
+import data.IWell;
 
 public interface IBlock {
 	public boolean moveLeft(int x);
@@ -9,4 +10,5 @@ public interface IBlock {
 	public Point[] rotateRight();
 	public Point[] getPoints();
 	public void setPoints(Point[] points);
+	public void setWellReference(IWell well);
 }

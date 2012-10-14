@@ -15,28 +15,18 @@ public class Well implements IWell{
 		return height;
 	}
 
-	public void setHeight(int height) {
-		this.height = height;
-	}
-
 	public int getWidth() {
 		return width;
-	}
-
-	public void setWidth(int width) {
-		this.width = width;
 	}
 
 	public Well(int height, int width){
 		this.height = height;
 		this.width = width;
-		if(fullCells==null){
-			fullCells = new boolean[height][];
-			for(int i=0; i < height; i++){
-				fullCells[i] = new boolean[width];
-				for(int j=0; j < width; j++)
-					fullCells[i][j] = false;
-			}
+		fullCells = new boolean[height][];
+		for(int i=0; i < height; i++){
+			fullCells[i] = new boolean[width];
+			for(int j=0; j < width; j++)
+				fullCells[i][j] = false;
 		}
 	}
 	
@@ -57,13 +47,15 @@ public class Well implements IWell{
 	public boolean isCellWithinBounds(int row, int col){
 		if(row < 0 || col < 0)
 			return false;
-		if(row >= fullCells.length || col >= fullCells[0].length)
+		if(row >= height || col >= width)
 			return false;
 		return true;
 	}
 	
 	public boolean isCellFull(int row, int col){
-		return !isCellEmpty(row, col);
+		if(isCellWithinBounds(row,col)==true && fullCells[row][col]==true)
+			return true;
+		else return false;
 	}
 	
 	public boolean emptyCell(int row, int col){
