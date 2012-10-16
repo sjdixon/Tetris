@@ -159,7 +159,60 @@ public class WellTest {
 		
 		@Test
 		public void testBoundChecking(){
-			fail("Not yet implemented.");
+			int placeholder = 1;
+			int[][] illegalBounds = {{-1, height}, {-1, width}};
+			int[][] legalBounds = {{0, height-1}, {0, width-1}};
+			assertEquals("Both arrays should have the same number of rows", illegalBounds.length, legalBounds.length);
+			
+			// Test every combination that contains at least 1 illegal term
+			for(int i=0; i < illegalBounds.length; i++){
+				assertEquals("Row " + i + " of each array should have the same length",
+						illegalBounds[i].length, legalBounds[i].length);
+				for(int j=0; j < illegalBounds.length; j++){
+					// Test isCellWithinBounds
+					boolean expectedResult = false;
+					boolean actualResult = testObject.isCellWithinBounds(illegalBounds[0][i], illegalBounds[1][j]);
+					assertEquals(expectedResult, actualResult);
+					actualResult = testObject.isCellWithinBounds(legalBounds[0][i], illegalBounds[1][j]);
+					assertEquals(expectedResult, actualResult);
+					actualResult = testObject.isCellWithinBounds(illegalBounds[0][i], legalBounds[1][j]);
+					assertEquals("i= " + i + " j=" + j, expectedResult, actualResult);
+					
+					// Test isCellEmpty
+					actualResult = testObject.isCellEmpty(illegalBounds[0][i], illegalBounds[0][j]);
+					assertEquals(expectedResult, actualResult);
+					actualResult = testObject.isCellEmpty(legalBounds[0][i], illegalBounds[0][j]);
+					assertEquals(expectedResult, actualResult);
+					actualResult = testObject.isCellEmpty(illegalBounds[0][i], legalBounds[0][j]);
+					assertEquals(expectedResult, actualResult);
+					
+					// Test isCellFull
+					actualResult = testObject.isCellFull(illegalBounds[0][i], illegalBounds[0][j]);
+					assertEquals(expectedResult, actualResult);
+					actualResult = testObject.isCellFull(illegalBounds[0][i], legalBounds[0][j]);
+					assertEquals(expectedResult, actualResult);
+					actualResult = testObject.isCellFull(legalBounds[0][i], illegalBounds[0][j]);
+					assertEquals(expectedResult, actualResult);
+				}
+			}
+			
+			// Test within bounds
+			for(int i=0; i < legalBounds.length; i++){
+				for(int j=0; j < legalBounds[i].length; j++){
+					boolean expectedResult = true;
+					boolean actualResult;
+					actualResult = testObject.isCellWithinBounds(legalBounds[0][i], legalBounds[1][j]);
+					assertEquals(expectedResult, actualResult);
+					
+					testObject.fillCell(legalBounds[0][i], legalBounds[1][j]);
+					actualResult = testObject.isCellFull(legalBounds[0][i], legalBounds[1][j]);
+					assertEquals(expectedResult, actualResult);
+
+					testObject.emptyCell(legalBounds[0][i], legalBounds[1][j]);
+					actualResult = testObject.isCellEmpty(legalBounds[0][i], legalBounds[1][j]);
+					assertEquals(expectedResult, actualResult);
+				}
+			}
 		}
 		
 		
