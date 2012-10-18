@@ -16,12 +16,12 @@ public class BasicBlockTest  {
 			setWellReference(well);
 		}
 		@Override
-		public Point[] rotateLeft() {
+		public Point[] rotateCCW() {
 			return null;
 		}
 
 		@Override
-		public Point[] rotateRight() {
+		public Point[] rotateCW() {
 			return null;
 		}
 	}
@@ -43,8 +43,8 @@ public class BasicBlockTest  {
 			testContext.fillCell(0, i);
 		}
 		for(int i=1; i < height; i++){
-			testContext.fillCell(1, i);
-			testContext.fillCell(width-2, i);
+			testContext.fillCell(i, 1);
+			testContext.fillCell(i, width-2);
 		}
 		
 		// Initialize the blocks
@@ -77,30 +77,123 @@ public class BasicBlockTest  {
 		}
 	}
 	
+	
 	@Test
-	public void testMoveLeft(){
-		testMovingLeftByOne();
-		testMovingLeftThroughObstacles();
-		testMovingLeftThroughWalls();
+	public void testMovingLShape(){
+		boolean[] expected = {true, false};
+		initializeLeftWell();
+		testObject = createLShape();
+		testMovingShapeLeftByX(expected);
 	}
 	
-	protected void testMovingLeftThroughWalls(){
-		int moveDistance = width/2 +1;
-		boolean expectedResult = false;
-		boolean actualResult = testObject.moveLeft(moveDistance);
-		assertEquals(expectedResult, actualResult);
+	@Test
+	public void testMovingGammaShape(){
+		boolean[] expected = {true, true, false};
+		initializeLeftWell();
+		testObject = createGammaShape();
+		testMovingShapeLeftByX(expected);
 	}
-	protected void testMovingLeftThroughObstacles(){
-		int moveDistance = testObject.getPoints()[2].x - 1;
-		boolean expectedResult = false;
-		boolean actualResult = testObject.moveLeft(moveDistance);
-		assertEquals(expectedResult, actualResult);
+	
+	@Test
+	public void testMoving2x1Shape(){
+		boolean[] expected = {true, true, false};
+		initializeLeftWell();
+		testObject = create2x1();
+		testMovingShapeLeftByX(expected);
 	}
-	protected void testMovingLeftByOne(){
-		int moveDistance = 1;
-		boolean expectedResult = true;
-		boolean actualResult = testObject.moveLeft(moveDistance);
-		assertEquals(expectedResult, actualResult);
+	
+	protected void initializeLeftWell(){
+		// Setup Well
+		testContext = new Well(5,4);
+		testContext.fillCell(1,0);
+		testContext.fillCell(2,1);
+		testContext.fillCell(0, 0);
+		testContext.fillCell(0, 1);
+	}
+	
+	protected void testMovingShapeLeftByX(boolean[] expectedResults){
+		Point[] originalPoints, newPoints;
+		System.err.println(expectedResults.length);
+		for(int i=0; i < expectedResults.length; i++){
+			
+			originalPoints = copyArray(testObject.getPoints());
+			boolean actualReturnValue = testObject.moveLeft();
+			assertEquals(expectedResults[i], actualReturnValue);
+			
+			newPoints = copyArray(testObject.getPoints());
+			assertEquals(originalPoints.length, newPoints.length);
+			
+			System.err.println("i="+i);
+			int dec;
+			if(expectedResults[i]==true){
+				dec =1;
+			}
+			else dec=0;
+			
+			for(int j=0; j < newPoints.length; j++){
+				System.err.println("j="+j + " " + expectedResults[i]);
+				assertEquals(originalPoints[j].x - dec, newPoints[j].x);
+				assertEquals(originalPoints[j].y, newPoints[j].y);
+			}
+		
+		}
+	}
+	
+	protected Point[] copyArray(Point[] src){
+		Point[] dest = new Point[src.length];
+		for(int i=0; i < src.length; i++){
+			dest[i] = new Point(src[i].x, src[i].y);
+		}
+		return dest;
+	}
+	
+	protected IBlock createLShape(){
+		Point[] lShape = {
+				new Point(3,3),
+				new Point(2,3),
+				new Point(3,1),
+				new Point(3,2)
+		};
+		IBlock lShapeBlock = new BlockTestClass(lShape, testContext);
+		return lShapeBlock;
+	}
+	
+	protected IBlock createGammaShape(){
+		Point[] gammaShape = {
+			new Point(3,4),
+			new Point(2,4),
+			new Point(3,3)
+		};
+		IBlock gammaBlock = new BlockTestClass(gammaShape, testContext);
+		return gammaBlock;
+	}
+	
+	protected IBlock create2x1(){
+		Point[] twobyone = { new Point(4,4), new Point(3,4)};
+		return new BlockTestClass(twobyone, testContext);
+	}
+	
+	@Test
+	public void testMovingLeftByOne(){
+		
+		// Initialize Expected Points
+		Point[] expectedPoints = testObject.getPoints();
+		for(int i=0; i < expectedPoints.length; i++){
+			expectedPoints[i].x--;
+		}
+		
+		// Verify Return Values
+		boolean expectedReturnValue = true;
+		boolean actualReturnValue = testObject.moveLeft();
+		assertEquals(expectedReturnValue, actualReturnValue);
+		
+		// Verify new points
+		Point[] actualPoints = testObject.getPoints();
+		assertEquals(expectedPoints.length, actualPoints.length);
+		for(int i=0; i < actualPoints.length; i++){
+			assertEquals(expectedPoints[i].x, actualPoints[i].x);
+			assertEquals(expectedPoints[i].y, actualPoints[i].y);
+		}
 	}
 	
 	

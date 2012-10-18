@@ -32,4 +32,8 @@ public class Point {
 		setX(x);
 		setY(y);
 	}
+	
+	public String toString(){
+		return "("+x+"),("+y+")";
+	}
 }

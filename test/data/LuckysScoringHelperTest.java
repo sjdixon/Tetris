@@ -36,7 +36,7 @@ public class LuckysScoringHelperTest {
 		int[] actualHeights = new int[width];
 		assertTrue(height >= width);
 		for(int i=0; i < width; i++){
-			actualHeights[i] = testObject.calculateHeight(i);
+			actualHeights[i] = testObject.calculateHeightOfColumn(i);
 			expectedHeights[i] = i+1;
 			assertEquals(expectedHeights[i], actualHeights[i]);
 		}

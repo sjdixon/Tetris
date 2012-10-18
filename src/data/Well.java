@@ -39,7 +39,7 @@ public class Well implements IWell{
 	}
 	
 	public boolean isCellEmpty(int row, int col){
-		if(isCellWithinBounds(row, col)==true && fullCells[row][col]==false)
+		if(fullCells[row][col]==false)
 			return true;
 		else return false;
 	}
@@ -53,7 +53,7 @@ public class Well implements IWell{
 	}
 	
 	public boolean isCellFull(int row, int col){
-		if(isCellWithinBounds(row,col)==true && fullCells[row][col]==true)
+		if(fullCells[row][col]==true)
 			return true;
 		else return false;
 	}

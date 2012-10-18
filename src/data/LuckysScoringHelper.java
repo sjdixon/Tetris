@@ -70,10 +70,14 @@ public class LuckysScoringHelper implements IScoreHelper{
 	}
 	
 	@Override
-	public int calculateHeight(int column){
+	/** 
+	 * This function returns the row number above the highest occupied cell in a column.
+	 * ie. if the highest cell is in row 2, this function returns 3.
+	 */
+	public int calculateHeightOfColumn(int column){
 		int height = 0;
 		for(int i=cellWell.getHeight()-1; i>=0; i--){
-			if(cellWell.isCellFull(i, column)){
+			if(cellWell.isCellFull(i, column)==true){
 				height = i + 1;
 				break;
 			}

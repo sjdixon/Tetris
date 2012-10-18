@@ -19,14 +19,18 @@ public abstract class BasicBlock implements IBlock{
 	}
 
 	@Override
-	public boolean moveLeft(int x) {
+	public boolean moveLeft() {
 		int[] xValues = new int[points.length];
 		int[] yValues = new int[points.length];
 		boolean validMove = true;
 		for(int i=0; i < xValues.length; i++){
-			xValues[i] = points[i].getX() - x;
+			xValues[i] = points[i].getX() - 1;
 			yValues[i] = points[i].getY();
-			if(wellReference.isCellFull(xValues[i], yValues[i])==true){
+			if(wellReference.isCellWithinBounds(yValues[i],xValues[i])==false){
+				validMove = false;
+				break;
+			}
+			else if(wellReference.isCellFull(yValues[i],xValues[i])==true){
 				validMove = false;
 				break;
 			}
@@ -40,16 +44,19 @@ public abstract class BasicBlock implements IBlock{
 	}
 
 	@Override
-	public boolean moveRight(int x) {
+	public boolean moveRight() {
 		return false;
 	}
 
 	@Override
-	public boolean moveDown(int y) {
+	public boolean moveDown() {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
+	@Override
+	public boolean moveUp() {
+		return false;
+	}
 
 
 }

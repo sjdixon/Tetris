@@ -118,19 +118,6 @@ public class WellTest {
 			assertEquals(expectedResult, isRowDeleted);
 		}
 		
-		@Test
-		public void placeIllegalCells(){
-			boolean[] actualResults = {
-					testObject.fillCell(0,-1),
-					testObject.fillCell(-1,0),
-					testObject.fillCell(height+1, 0),
-					testObject.fillCell(0, width+1)
-			};
-			for(int i=0; i < actualResults.length; i++){
-				boolean expectedResult = false;
-				assertEquals(expectedResult, actualResults[i]);
-			}
-		}
 		
 		@Test
 		public void ToStringTest(){
@@ -178,21 +165,6 @@ public class WellTest {
 					actualResult = testObject.isCellWithinBounds(illegalBounds[0][i], legalBounds[1][j]);
 					assertEquals("i= " + i + " j=" + j, expectedResult, actualResult);
 					
-					// Test isCellEmpty
-					actualResult = testObject.isCellEmpty(illegalBounds[0][i], illegalBounds[0][j]);
-					assertEquals(expectedResult, actualResult);
-					actualResult = testObject.isCellEmpty(legalBounds[0][i], illegalBounds[0][j]);
-					assertEquals(expectedResult, actualResult);
-					actualResult = testObject.isCellEmpty(illegalBounds[0][i], legalBounds[0][j]);
-					assertEquals(expectedResult, actualResult);
-					
-					// Test isCellFull
-					actualResult = testObject.isCellFull(illegalBounds[0][i], illegalBounds[0][j]);
-					assertEquals(expectedResult, actualResult);
-					actualResult = testObject.isCellFull(illegalBounds[0][i], legalBounds[0][j]);
-					assertEquals(expectedResult, actualResult);
-					actualResult = testObject.isCellFull(legalBounds[0][i], illegalBounds[0][j]);
-					assertEquals(expectedResult, actualResult);
 				}
 			}
 			
