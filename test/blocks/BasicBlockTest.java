@@ -181,17 +181,16 @@ public class BasicBlockTest  {
 	@Test
 	public void testMove(){
 		testContext = createDonutWell();
-		testObject = createSquare();
 		int[] xMoves = {-2, -1, 0, 1, 2};
 		int[] yMoves = {-2, -1, 0, 1, 2};
 		
 		System.out.println(testContext);
 		// For each (dx, dy) pair, test whether the square can move inside the donut well
 		for(int i=0; i < xMoves.length; i++){
-			System.err.println(i);
 			for(int j=0; j < yMoves.length; j++){
-				boolean isLegalMove = xMoves[i] < 2 && xMoves[i] > -2;
-				isLegalMove = isLegalMove && (yMoves[j] < 2 && yMoves[j] > -2);
+				testObject = createSquare();
+				boolean isLegalMove = (xMoves[i] < 2 && xMoves[i] > -2)
+						&& (yMoves[j] < 2 && yMoves[j] > -2);
 				
 				// Setup Expected Results
 				Point[] expectedPoints = testObject.getPoints();
@@ -208,10 +207,9 @@ public class BasicBlockTest  {
 				Point[] actualResults = testObject.getPoints();
 				assertEquals(expectedPoints.length, actualResults.length);
 				assertNotSame(expectedPoints, actualResults);
+				System.err.println("i "+(i-2)+" j "+(j-2));
 				for(int k=0; k < actualResults.length; k++){
-					System.err.println("j"+j+"k"+k);
-					System.err.println(expectedPoints[k]);
-					System.err.println(actualResults[k]);
+					System.err.println(expectedPoints[k] + "=" + actualResults[k]);
 					assertTrue(actualResults[k].equals(expectedPoints[k]));
 					assertNotSame(actualResults[k], expectedPoints[k]);
 				}
