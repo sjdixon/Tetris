@@ -61,14 +61,19 @@ public class BasicBlockTest  {
 		assertTrue(height > 2);
 	}
 	
-	@Test
-	public void testGetPoints(){
+	public Point[] getTestBlocks(){
 		Point[] testBlocks = new Point[4];
 		testBlocks[0] = new Point(height-2, width/2);
 		testBlocks[1] = new Point(height-2, width/2 +1);
 		testBlocks[2] = new Point(height-2, width/2 -1);
 		testBlocks[3] = new Point(height-1, width/2 -1);
-		Point[] actualResults = testObject.getPoints();
+		return testBlocks;
+	}
+	
+	@Test
+	public void testGetPoints(){
+		Point[] testBlocks = getTestBlocks();
+		Point[] actualResults = copyArray(testObject.getPoints());
 		
 		assertEquals(testBlocks.length, actualResults.length);
 		for(int i=0; i < actualResults.length; i++){
@@ -113,7 +118,7 @@ public class BasicBlockTest  {
 	
 	protected void testMovingShapeLeftByX(boolean[] expectedResults){
 		Point[] originalPoints, newPoints;
-		System.err.println(expectedResults.length);
+	//	System.err.println(expectedResults.length);
 		for(int i=0; i < expectedResults.length; i++){
 			
 			originalPoints = copyArray(testObject.getPoints());
@@ -123,7 +128,7 @@ public class BasicBlockTest  {
 			newPoints = copyArray(testObject.getPoints());
 			assertEquals(originalPoints.length, newPoints.length);
 			
-			System.err.println("i="+i);
+			//System.err.println("i="+i);
 			int dec;
 			if(expectedResults[i]==true){
 				dec =1;
@@ -131,7 +136,7 @@ public class BasicBlockTest  {
 			else dec=0;
 			
 			for(int j=0; j < newPoints.length; j++){
-				System.err.println("j="+j + " " + expectedResults[i]);
+				//System.err.println("j="+j + " " + expectedResults[i]);
 				assertEquals(originalPoints[j].x - dec, newPoints[j].x);
 				assertEquals(originalPoints[j].y, newPoints[j].y);
 			}
@@ -169,32 +174,70 @@ public class BasicBlockTest  {
 	}
 	
 	protected IBlock create2x1(){
-		Point[] twobyone = { new Point(4,4), new Point(3,4)};
+		Point[] twobyone = { new Point(2,4), new Point(3,4)};
 		return new BlockTestClass(twobyone, testContext);
 	}
 	
 	@Test
-	public void testMovingLeftByOne(){
+	public void testMove(){
+		testContext = createDonutWell();
+		testObject = createSquare();
+		int[] xMoves = {-2, -1, 0, 1, 2};
+		int[] yMoves = {-2, -1, 0, 1, 2};
 		
-		// Initialize Expected Points
-		Point[] expectedPoints = testObject.getPoints();
-		for(int i=0; i < expectedPoints.length; i++){
-			expectedPoints[i].x--;
-		}
-		
-		// Verify Return Values
-		boolean expectedReturnValue = true;
-		boolean actualReturnValue = testObject.moveLeft();
-		assertEquals(expectedReturnValue, actualReturnValue);
-		
-		// Verify new points
-		Point[] actualPoints = testObject.getPoints();
-		assertEquals(expectedPoints.length, actualPoints.length);
-		for(int i=0; i < actualPoints.length; i++){
-			assertEquals(expectedPoints[i].x, actualPoints[i].x);
-			assertEquals(expectedPoints[i].y, actualPoints[i].y);
+		System.out.println(testContext);
+		// For each (dx, dy) pair, test whether the square can move inside the donut well
+		for(int i=0; i < xMoves.length; i++){
+			System.err.println(i);
+			for(int j=0; j < yMoves.length; j++){
+				boolean isLegalMove = xMoves[i] < 2 && xMoves[i] > -2;
+				isLegalMove = isLegalMove && (yMoves[j] < 2 && yMoves[j] > -2);
+				
+				// Setup Expected Results
+				Point[] expectedPoints = testObject.getPoints();
+				for(int k=0; k < expectedPoints.length; k++){
+					// Adjust expected x coordinate
+					if(isLegalMove){
+						expectedPoints[k].setX(expectedPoints[k].x + xMoves[i]);
+						expectedPoints[k].setY(expectedPoints[k].y + yMoves[j]);
+					}
+				}
+				
+				// Verify the expected results
+				testObject.move(xMoves[i], yMoves[j]);
+				Point[] actualResults = testObject.getPoints();
+				assertEquals(expectedPoints.length, actualResults.length);
+				assertNotSame(expectedPoints, actualResults);
+				for(int k=0; k < actualResults.length; k++){
+					System.err.println("j"+j+"k"+k);
+					System.err.println(expectedPoints[k]);
+					System.err.println(actualResults[k]);
+					assertTrue(actualResults[k].equals(expectedPoints[k]));
+					assertNotSame(actualResults[k], expectedPoints[k]);
+				}
+			}
 		}
 	}
 	
+	protected IWell createDonutWell(){
+		int length = 6;
+		IWell well = new Well(length,length);
+		for(int i=0; i < length; i++){
+			well.fillCell(i, 0);
+			well.fillCell(0, i);
+			well.fillCell(length-1, i);
+			well.fillCell(i, length-1);
+		}
+		return well;
+	}
 	
+	protected IBlock createSquare(){
+		Point[] points = new Point[4];
+		points[0] = new Point(2,2);
+		points[1] = new Point(3,3);
+		points[2] = new Point(2,3);
+		points[3] = new Point(3,2);
+		IBlock block = new BlockTestClass(points, testContext);
+		return block;
+	}
 }

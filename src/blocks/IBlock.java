@@ -3,6 +3,7 @@ package blocks;
 import data.IWell;
 
 public interface IBlock {
+	public boolean move(int dx, int dy);
 	public boolean moveLeft();
 	public boolean moveRight();
 	public boolean moveDown();

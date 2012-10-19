@@ -36,4 +36,12 @@ public class Point {
 	public String toString(){
 		return "("+x+"),("+y+")";
 	}
+	
+	public boolean equals(Object p){
+		if(p.getClass()!= this.getClass())
+			return false;
+		if(((Point) p).getX() == x && ((Point) p).getY()==y)
+			return true;
+		else return false;
+	}
 }

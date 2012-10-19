@@ -31,4 +31,24 @@ public class PointTest {
 		
 	}
 
+	public void testEquality(){
+		int x1 = 150, y1 = 49;
+		Point referenceObject = new Point(x1,y1);
+		Object[] testObjects = new Point[5];
+		testObjects[0] = new Point(x1,y1);
+		testObjects[1] = new Point(x1+1, y1);
+		testObjects[2] = new Point(x1, y1-1);
+		testObjects[3] = new Point(x1-1, y1+1);
+		testObjects[4] = new Object();
+		
+		assertNotSame(referenceObject, testObjects[0]);
+		
+		boolean expected = true;
+		assertEquals(expected, referenceObject.equals(testObjects[0]));
+		for(int i=1; i < testObjects.length; i++){
+			expected = false;
+			assertEquals(expected, referenceObject.equals(testObjects[i]));
+		}
+		
+	}
 }
