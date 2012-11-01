@@ -8,9 +8,9 @@ public interface IBlock {
 	public boolean moveRight();
 	public boolean moveDown();
 	public boolean moveUp();
-	public Point[] rotateCW();
-	public Point[] rotateCCW();
-	public Point[] getPoints();
-	public void setPoints(Point[] points);
+	public Cell[] rotateCW();
+	public Cell[] rotateCCW();
+	public Cell[] getCells();
+	public void setPoints(Cell[] points);
 	public void setWellReference(IWell well);
 }

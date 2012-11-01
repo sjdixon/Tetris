@@ -5,23 +5,23 @@ import data.Well;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import blocks.Point;
+import blocks.Cell;
 
 public class BasicBlockTest  {
 	
 	// This test can be improved by replacing the following inner class with a mockery
 	protected class BlockTestClass extends BasicBlock{
-		public BlockTestClass(Point[] points, IWell well){
+		public BlockTestClass(Cell[] points, IWell well){
 			setPoints(points);
 			setWellReference(well);
 		}
 		@Override
-		public Point[] rotateCCW() {
+		public Cell[] rotateCCW() {
 			return null;
 		}
 
 		@Override
-		public Point[] rotateCW() {
+		public Cell[] rotateCW() {
 			return null;
 		}
 	}
@@ -48,11 +48,11 @@ public class BasicBlockTest  {
 		}
 		
 		// Initialize the blocks
-		Point[] testBlocks = new Point[4];
-		testBlocks[0] = new Point(height-2, width/2);
-		testBlocks[1] = new Point(height-2, width/2 +1);
-		testBlocks[2] = new Point(height-2, width/2 -1);
-		testBlocks[3] = new Point(height-1, width/2 -1);
+		Cell[] testBlocks = new Cell[4];
+		testBlocks[0] = new Cell(height-2, width/2);
+		testBlocks[1] = new Cell(height-2, width/2 +1);
+		testBlocks[2] = new Cell(height-2, width/2 -1);
+		testBlocks[3] = new Cell(height-1, width/2 -1);
 		testObject = new BlockTestClass(testBlocks, testContext);
 		
 		// Check assumptions
@@ -61,24 +61,24 @@ public class BasicBlockTest  {
 		assertTrue(height > 2);
 	}
 	
-	public Point[] getTestBlocks(){
-		Point[] testBlocks = new Point[4];
-		testBlocks[0] = new Point(height-2, width/2);
-		testBlocks[1] = new Point(height-2, width/2 +1);
-		testBlocks[2] = new Point(height-2, width/2 -1);
-		testBlocks[3] = new Point(height-1, width/2 -1);
+	public Cell[] getTestBlocks(){
+		Cell[] testBlocks = new Cell[4];
+		testBlocks[0] = new Cell(height-2, width/2);
+		testBlocks[1] = new Cell(height-2, width/2 +1);
+		testBlocks[2] = new Cell(height-2, width/2 -1);
+		testBlocks[3] = new Cell(height-1, width/2 -1);
 		return testBlocks;
 	}
 	
 	@Test
 	public void testGetPoints(){
-		Point[] testBlocks = getTestBlocks();
-		Point[] actualResults = copyArray(testObject.getPoints());
+		Cell[] testBlocks = getTestBlocks();
+		Cell[] actualResults = copyArray(testObject.getCells());
 		
 		assertEquals(testBlocks.length, actualResults.length);
 		for(int i=0; i < actualResults.length; i++){
-			assertEquals(testBlocks[i].getX(), actualResults[i].getX());
-			assertEquals(testBlocks[i].getY(), actualResults[i].getY());
+			assertEquals(testBlocks[i].getRow(), actualResults[i].getRow());
+			assertEquals(testBlocks[i].getColumn(), actualResults[i].getColumn());
 		}
 	}
 	
@@ -117,15 +117,15 @@ public class BasicBlockTest  {
 	}
 	
 	protected void testMovingShapeLeftByX(boolean[] expectedResults){
-		Point[] originalPoints, newPoints;
+		Cell[] originalPoints, newPoints;
 	//	System.err.println(expectedResults.length);
 		for(int i=0; i < expectedResults.length; i++){
 			
-			originalPoints = copyArray(testObject.getPoints());
+			originalPoints = copyArray(testObject.getCells());
 			boolean actualReturnValue = testObject.moveLeft();
 			assertEquals(expectedResults[i], actualReturnValue);
 			
-			newPoints = copyArray(testObject.getPoints());
+			newPoints = copyArray(testObject.getCells());
 			assertEquals(originalPoints.length, newPoints.length);
 			
 			//System.err.println("i="+i);
@@ -137,44 +137,44 @@ public class BasicBlockTest  {
 			
 			for(int j=0; j < newPoints.length; j++){
 				//System.err.println("j="+j + " " + expectedResults[i]);
-				assertEquals(originalPoints[j].x - dec, newPoints[j].x);
-				assertEquals(originalPoints[j].y, newPoints[j].y);
+				assertEquals(originalPoints[j].row - dec, newPoints[j].row);
+				assertEquals(originalPoints[j].column, newPoints[j].column);
 			}
 		
 		}
 	}
 	
-	protected Point[] copyArray(Point[] src){
-		Point[] dest = new Point[src.length];
+	protected Cell[] copyArray(Cell[] src){
+		Cell[] dest = new Cell[src.length];
 		for(int i=0; i < src.length; i++){
-			dest[i] = new Point(src[i].x, src[i].y);
+			dest[i] = new Cell(src[i].row, src[i].column);
 		}
 		return dest;
 	}
 	
 	protected IBlock createLShape(){
-		Point[] lShape = {
-				new Point(3,3),
-				new Point(2,3),
-				new Point(3,1),
-				new Point(3,2)
+		Cell[] lShape = {
+				new Cell(3,3),
+				new Cell(2,3),
+				new Cell(3,1),
+				new Cell(3,2)
 		};
 		IBlock lShapeBlock = new BlockTestClass(lShape, testContext);
 		return lShapeBlock;
 	}
 	
 	protected IBlock createGammaShape(){
-		Point[] gammaShape = {
-			new Point(3,4),
-			new Point(2,4),
-			new Point(3,3)
+		Cell[] gammaShape = {
+			new Cell(3,4),
+			new Cell(2,4),
+			new Cell(3,3)
 		};
 		IBlock gammaBlock = new BlockTestClass(gammaShape, testContext);
 		return gammaBlock;
 	}
 	
 	protected IBlock create2x1(){
-		Point[] twobyone = { new Point(2,4), new Point(3,4)};
+		Cell[] twobyone = { new Cell(2,4), new Cell(3,4)};
 		return new BlockTestClass(twobyone, testContext);
 	}
 	
@@ -193,28 +193,29 @@ public class BasicBlockTest  {
 						&& (yMoves[j] < 2 && yMoves[j] > -2);
 				
 				// Setup Expected Results
-				Point[] expectedPoints = testObject.getPoints();
+				Cell[] expectedPoints = testObject.getCells();
 				for(int k=0; k < expectedPoints.length; k++){
 					// Adjust expected x coordinate
 					if(isLegalMove){
-						expectedPoints[k].setX(expectedPoints[k].x + xMoves[i]);
-						expectedPoints[k].setY(expectedPoints[k].y + yMoves[j]);
+						expectedPoints[k].setRow(expectedPoints[k].row + xMoves[i]);
+						expectedPoints[k].setColumn(expectedPoints[k].column + yMoves[j]);
 					}
 				}
 				
 				// Verify the expected results
 				testObject.move(xMoves[i], yMoves[j]);
-				Point[] actualResults = testObject.getPoints();
+				Cell[] actualResults = testObject.getCells();
 				assertEquals(expectedPoints.length, actualResults.length);
 				assertNotSame(expectedPoints, actualResults);
 				System.err.println("i "+(i-2)+" j "+(j-2));
 				for(int k=0; k < actualResults.length; k++){
-					System.err.println(expectedPoints[k] + "=" + actualResults[k]);
+				//	System.err.println(expectedPoints[k] + "=" + actualResults[k]);
 					assertTrue(actualResults[k].equals(expectedPoints[k]));
 					assertNotSame(actualResults[k], expectedPoints[k]);
 				}
 			}
 		}
+		
 	}
 	
 	protected IWell createDonutWell(){
@@ -230,12 +231,42 @@ public class BasicBlockTest  {
 	}
 	
 	protected IBlock createSquare(){
-		Point[] points = new Point[4];
-		points[0] = new Point(2,2);
-		points[1] = new Point(3,3);
-		points[2] = new Point(2,3);
-		points[3] = new Point(3,2);
+		Cell[] points = new Cell[4];
+		points[0] = new Cell(2,2);
+		points[1] = new Cell(3,3);
+		points[2] = new Cell(2,3);
+		points[3] = new Cell(3,2);
 		IBlock block = new BlockTestClass(points, testContext);
 		return block;
+	}
+	
+
+	@Test
+	public void testMoveEachDirection(){
+		// Setup
+		testContext = createDonutWell();
+		testObject = createSquare();
+		Cell[] expected = testObject.getCells();
+		boolean expectedMoveResult = true;
+		boolean moved;
+		
+		// Exercise
+		moved = testObject.moveRight();
+		assertEquals(expectedMoveResult, moved);
+		moved = testObject.moveUp();
+		assertEquals(expectedMoveResult, moved);
+		moved = testObject.moveDown();
+		assertEquals(expectedMoveResult, moved);
+		moved = testObject.moveLeft();
+		assertEquals(expectedMoveResult, moved);
+		
+		// Verify
+		Cell[] actual = testObject.getCells();
+		assertEquals(expected.length, actual.length);
+		assertNotSame(expected, actual);
+		for(int i=0; i < expected.length; i++){
+			assertTrue(expected[i].equals(actual[i]));
+			assertNotSame(expected[i], actual[i]);
+		}
 	}
 }

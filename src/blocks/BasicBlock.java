@@ -3,17 +3,17 @@ package blocks;
 import data.IWell;
 
 public abstract class BasicBlock implements IBlock{
-	protected Point[] points;
+	protected Cell[] points;
 	protected IWell wellReference;
 
-	public Point[] getPoints() {
-		Point[] copy = new Point[points.length];
+	public Cell[] getCells() {
+		Cell[] copy = new Cell[points.length];
 		for(int i=0; i < copy.length; i++)
-			copy[i] = new Point(points[i].x, points[i].y);
+			copy[i] = new Cell(points[i].row, points[i].column);
 		return copy;
 	}
 
-	public void setPoints(Point[] points) {
+	public void setPoints(Cell[] points) {
 		this.points = points;
 	}
 	
@@ -36,8 +36,8 @@ public abstract class BasicBlock implements IBlock{
 		int[] yValues = new int[points.length];
 		boolean validMove = true;
 		for(int i=0; i < xValues.length; i++){
-			xValues[i] = points[i].getX() + dx;
-			yValues[i] = points[i].getY() + dy;
+			xValues[i] = points[i].getRow() + dx;
+			yValues[i] = points[i].getColumn() + dy;
 			if(wellReference.isCellWithinBounds(yValues[i],xValues[i])==false){
 				validMove = false;
 				break;
@@ -49,8 +49,8 @@ public abstract class BasicBlock implements IBlock{
 		}
 		if(validMove==true){
 			for(int i=0; i < points.length; i++){
-				points[i].setX(xValues[i]);
-				points[i].setY(yValues[i]);
+				points[i].setRow(xValues[i]);
+				points[i].setColumn(yValues[i]);
 			}
 		}
 		return validMove;

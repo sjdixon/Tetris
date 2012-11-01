@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import blocks.Point;
+import blocks.Cell;
 
 
 public class PointTest {
@@ -12,33 +12,34 @@ public class PointTest {
 	@Test
 	public void testPointClass() {
 		int x = 169, y = 43;
-		Point testObject = new Point(x,y);
-		assertEquals(x,testObject.getX());
-		assertEquals(y,testObject.getY());
+		Cell testObject = new Cell(x,y);
+		assertEquals(x,testObject.getRow());
+		assertEquals(y,testObject.getColumn());
 		
 		x = 143; 
 		y = 37;
 		testObject.setCoords(x, y);
-		assertEquals(x,testObject.getX());
-		assertEquals(y,testObject.getY());
+		assertEquals(x,testObject.getRow());
+		assertEquals(y,testObject.getColumn());
 		
 		x = 0;
 		y = 0;
-		testObject.setX(x);
-		testObject.setY(y);
-		assertEquals(x,testObject.getX());
-		assertEquals(y,testObject.getY());
+		testObject.setRow(x);
+		testObject.setColumn(y);
+		assertEquals(x,testObject.getRow());
+		assertEquals(y,testObject.getColumn());
 		
 	}
 
+	@Test
 	public void testEquality(){
 		int x1 = 150, y1 = 49;
-		Point referenceObject = new Point(x1,y1);
-		Object[] testObjects = new Point[5];
-		testObjects[0] = new Point(x1,y1);
-		testObjects[1] = new Point(x1+1, y1);
-		testObjects[2] = new Point(x1, y1-1);
-		testObjects[3] = new Point(x1-1, y1+1);
+		Cell referenceObject = new Cell(x1,y1);
+		Object[] testObjects = new Object[5];
+		testObjects[0] = new Cell(x1,y1);
+		testObjects[1] = new Cell(x1+1, y1);
+		testObjects[2] = new Cell(x1, y1-1);
+		testObjects[3] = new Cell(x1-1, y1+1);
 		testObjects[4] = new Object();
 		
 		assertNotSame(referenceObject, testObjects[0]);
