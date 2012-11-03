@@ -207,7 +207,7 @@ public class BasicBlockTest  {
 				Cell[] actualResults = testObject.getCells();
 				assertEquals(expectedPoints.length, actualResults.length);
 				assertNotSame(expectedPoints, actualResults);
-				System.err.println("i "+(i-2)+" j "+(j-2));
+				//System.err.println("i "+(i-2)+" j "+(j-2));
 				for(int k=0; k < actualResults.length; k++){
 				//	System.err.println(expectedPoints[k] + "=" + actualResults[k]);
 					assertTrue(actualResults[k].equals(expectedPoints[k]));

@@ -8,6 +8,7 @@ public interface IChromosome{
 	public IChromosome mutate();
 	public double getScore();
 	public void setScore(double score);
+	public void setCoefficient(int coefficient, double value);
 	
 	// Coefficients For Managing the Array
 	public static final int HEIGHT = 0;
