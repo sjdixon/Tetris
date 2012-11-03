@@ -42,8 +42,7 @@ public class LuckysAlgorithm implements IAlgorithm {
 
 	@Override
 	public void setChromosome(IChromosome chromosome) {
-		// TODO Auto-generated method stub
-		
+		calculator = new ScoreCalculator(well, chromosome);
 	}
 
 	@Override

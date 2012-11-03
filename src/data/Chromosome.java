@@ -89,13 +89,12 @@ public class Chromosome implements IChromosome{
 	@Override
 	public double getScore() {
 		// TODO Auto-generated method stub
-		return 0;
+		return score;
 	}
 
 	@Override
 	public void setScore(double score) {
-		// TODO Auto-generated method stub
-		
+		this.score = score;
 	}
 
 	@Override
@@ -128,4 +127,10 @@ public class Chromosome implements IChromosome{
 		return coefficients[FLOOR];
 	}
 
+	@Override
+	public void setCoefficient(int coef, double value){
+		if(coef >= 0 && coef < NUM_COEFFICIENTS){
+			coefficients[coef] = value;
+		}
+	}
 }
