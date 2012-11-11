@@ -4,10 +4,10 @@ import data.IWell;
 public class L_Block extends BasicBlock {
 	public L_Block(IWell well){
 		this.points = new Cell[4];
-		points[0] = new Cell(19,5);
-		points[1] = new Cell(19,4);
-		points[2] = new Cell(18,4);
-		points[3] = new Cell(19,6);
+		points[0] = new Cell(5, 19);
+		points[1] = new Cell(4, 19);
+		points[2] = new Cell(4, 18);
+		points[3] = new Cell(6, 19);
 		this.wellReference = well;
 	}
 	@Override

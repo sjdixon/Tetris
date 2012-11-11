@@ -53,6 +53,7 @@ public class J_Block extends BasicBlock {
 			rotated[3] = new Cell(r-1, c);
 			break;
 		}
+		
 		return rotated;
 	}
 
