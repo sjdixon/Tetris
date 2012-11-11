@@ -9,7 +9,7 @@ public abstract class BasicBlock implements IBlock{
 	public Cell[] getCells() {
 		Cell[] copy = new Cell[points.length];
 		for(int i=0; i < copy.length; i++)
-			copy[i] = new Cell(points[i].row, points[i].column);
+			copy[i] = new Cell(points[i].column, points[i].row);
 		return copy;
 	}
 
@@ -36,8 +36,8 @@ public abstract class BasicBlock implements IBlock{
 		int[] yValues = new int[points.length];
 		boolean validMove = true;
 		for(int i=0; i < xValues.length; i++){
-			xValues[i] = points[i].getRow() + dx;
-			yValues[i] = points[i].getColumn() + dy;
+			yValues[i] = points[i].getRow() + dy;
+			xValues[i] = points[i].getColumn() + dx;
 			if(wellReference.isCellWithinBounds(yValues[i],xValues[i])==false){
 				validMove = false;
 				break;
@@ -49,8 +49,8 @@ public abstract class BasicBlock implements IBlock{
 		}
 		if(validMove==true){
 			for(int i=0; i < points.length; i++){
-				points[i].setRow(xValues[i]);
-				points[i].setColumn(yValues[i]);
+				points[i].setRow(yValues[i]);
+				points[i].setColumn(xValues[i]);
 			}
 		}
 		return validMove;
@@ -66,5 +66,26 @@ public abstract class BasicBlock implements IBlock{
 		return move(0,1);
 	}
 
-
+	protected int rotation = 0;
+	@Override
+	public int getRotation(){
+		return rotation;
+	}
+	
+	@Override
+	public Cell getOrigin(){
+		Cell copyOfOrigin = new Cell(0,0);
+		copyOfOrigin.row = points[0].row;
+		copyOfOrigin.column = points[0].column;
+		return copyOfOrigin;
+	}
+	
+	@Override
+	public void drop(){
+		boolean canGoDownFurther = moveDown();
+		while(canGoDownFurther==true){
+			canGoDownFurther = moveDown();
+		}
+	}
+	
 }

@@ -14,11 +14,4 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>lib/jzmq.lib</name>
-			<type>1</type>
-			<locationURI>PARENT-4-PROJECT_LOC/zeromq-2.1.11/jzmq/build32/lib/jzmq.lib</locationURI>
-		</link>
-	</linkedResources>
 </projectDescription>

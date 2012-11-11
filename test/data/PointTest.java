@@ -13,21 +13,21 @@ public class PointTest {
 	public void testPointClass() {
 		int x = 169, y = 43;
 		Cell testObject = new Cell(x,y);
-		assertEquals(x,testObject.getRow());
-		assertEquals(y,testObject.getColumn());
+		assertEquals(y,testObject.getRow());
+		assertEquals(x,testObject.getColumn());
 		
 		x = 143; 
 		y = 37;
-		testObject.setCoords(x, y);
-		assertEquals(x,testObject.getRow());
-		assertEquals(y,testObject.getColumn());
+		testObject.setCoords(y, x);
+		assertEquals(y,testObject.getRow());
+		assertEquals(x,testObject.getColumn());
 		
 		x = 0;
 		y = 0;
 		testObject.setRow(x);
 		testObject.setColumn(y);
-		assertEquals(x,testObject.getRow());
-		assertEquals(y,testObject.getColumn());
+		assertEquals(y,testObject.getRow());
+		assertEquals(x,testObject.getColumn());
 		
 	}
 
@@ -51,5 +51,12 @@ public class PointTest {
 			assertEquals(expected, referenceObject.equals(testObjects[i]));
 		}
 		
+	} 
+	
+	@Test
+	public void testToString(){
+		Cell TestObject = new Cell(-41, 433);
+		String expected = "(-41,433)";
+		assertEquals(expected, TestObject.toString());
 	}
 }

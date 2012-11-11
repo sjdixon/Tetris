@@ -12,5 +12,6 @@ public interface IWell {
 	boolean isCellWithinBounds(int r, int c);
 	boolean[][] getCells();
 	int getWidth();
+	void readHexadecimalBoard(String hexadecimal);
 	int getHeight();
 }

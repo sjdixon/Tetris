@@ -135,11 +135,11 @@ public class WellTest {
 				}
 			}
 			String expectedMessage = "" +
-				"false  false  false  false  true  true  \n" +
-				"false  false  false  true  true  true  \n" +  
-				"false  false  true  true  true  true  \n" +  
-				"false  true  true  true  true  true  \n" +
-				"true  true  true  true  true  true  \n";
+				"false  false  false  false  true   true   \n" +
+				"false  false  false  true   true   true   \n" +  
+				"false  false  true   true   true   true   \n" +  
+				"false  true   true   true   true   true   \n" +
+				"true   true   true   true   true   true   \n";
 			String actualMessage = testObject.toString();
 			assertEquals(expectedMessage, actualMessage);
 		}

@@ -16,19 +16,19 @@ public class BasicBlockTest  {
 			setWellReference(well);
 		}
 		@Override
-		public Cell[] rotateCCW() {
+		public Cell[] rotateLeft() {
 			return null;
 		}
 
 		@Override
-		public Cell[] rotateCW() {
+		public Cell[] rotateRight() {
 			return null;
 		}
 	}
 	
 	protected IWell testContext;
 	protected IBlock testObject;
-	protected final int height = 12;
+	protected final int height = 20;
 	protected final int width = 10;
 	
 	@Before
@@ -48,11 +48,7 @@ public class BasicBlockTest  {
 		}
 		
 		// Initialize the blocks
-		Cell[] testBlocks = new Cell[4];
-		testBlocks[0] = new Cell(height-2, width/2);
-		testBlocks[1] = new Cell(height-2, width/2 +1);
-		testBlocks[2] = new Cell(height-2, width/2 -1);
-		testBlocks[3] = new Cell(height-1, width/2 -1);
+		Cell[] testBlocks = getTestBlocks();
 		testObject = new BlockTestClass(testBlocks, testContext);
 		
 		// Check assumptions
@@ -86,25 +82,28 @@ public class BasicBlockTest  {
 	@Test
 	public void testMovingLShape(){
 		boolean[] expected = {true, false};
+		//System.err.println("L");
 		initializeLeftWell();
 		testObject = createLShape();
-		testMovingShapeLeftByX(expected);
+		testMovingShapeLeft(expected);
 	}
 	
 	@Test
 	public void testMovingGammaShape(){
 		boolean[] expected = {true, true, false};
 		initializeLeftWell();
+		//System.err.println("Gamma");
 		testObject = createGammaShape();
-		testMovingShapeLeftByX(expected);
+		testMovingShapeLeft(expected);
 	}
 	
 	@Test
 	public void testMoving2x1Shape(){
 		boolean[] expected = {true, true, false};
 		initializeLeftWell();
+		//System.err.println("2x1");
 		testObject = create2x1();
-		testMovingShapeLeftByX(expected);
+		testMovingShapeLeft(expected);
 	}
 	
 	protected void initializeLeftWell(){
@@ -116,7 +115,7 @@ public class BasicBlockTest  {
 		testContext.fillCell(0, 1);
 	}
 	
-	protected void testMovingShapeLeftByX(boolean[] expectedResults){
+	protected void testMovingShapeLeft(boolean[] expectedResults){
 		Cell[] originalPoints, newPoints;
 	//	System.err.println(expectedResults.length);
 		for(int i=0; i < expectedResults.length; i++){
@@ -128,7 +127,6 @@ public class BasicBlockTest  {
 			newPoints = copyArray(testObject.getCells());
 			assertEquals(originalPoints.length, newPoints.length);
 			
-			//System.err.println("i="+i);
 			int dec;
 			if(expectedResults[i]==true){
 				dec =1;
@@ -137,8 +135,8 @@ public class BasicBlockTest  {
 			
 			for(int j=0; j < newPoints.length; j++){
 				//System.err.println("j="+j + " " + expectedResults[i]);
-				assertEquals(originalPoints[j].row - dec, newPoints[j].row);
-				assertEquals(originalPoints[j].column, newPoints[j].column);
+				assertEquals(originalPoints[j].row, newPoints[j].row);
+				assertEquals(originalPoints[j].column - dec, newPoints[j].column);
 			}
 		
 		}
@@ -147,7 +145,7 @@ public class BasicBlockTest  {
 	protected Cell[] copyArray(Cell[] src){
 		Cell[] dest = new Cell[src.length];
 		for(int i=0; i < src.length; i++){
-			dest[i] = new Cell(src[i].row, src[i].column);
+			dest[i] = new Cell(src[i].column, src[i].row);
 		}
 		return dest;
 	}
@@ -156,8 +154,8 @@ public class BasicBlockTest  {
 		Cell[] lShape = {
 				new Cell(3,3),
 				new Cell(2,3),
-				new Cell(3,1),
-				new Cell(3,2)
+				new Cell(1,3),
+				new Cell(1,2)
 		};
 		IBlock lShapeBlock = new BlockTestClass(lShape, testContext);
 		return lShapeBlock;
@@ -184,7 +182,7 @@ public class BasicBlockTest  {
 		int[] xMoves = {-2, -1, 0, 1, 2};
 		int[] yMoves = {-2, -1, 0, 1, 2};
 		
-		System.out.println(testContext);
+		//System.out.println(testContext);
 		// For each (dx, dy) pair, test whether the square can move inside the donut well
 		for(int i=0; i < xMoves.length; i++){
 			for(int j=0; j < yMoves.length; j++){
@@ -197,19 +195,20 @@ public class BasicBlockTest  {
 				for(int k=0; k < expectedPoints.length; k++){
 					// Adjust expected x coordinate
 					if(isLegalMove){
-						expectedPoints[k].setRow(expectedPoints[k].row + xMoves[i]);
-						expectedPoints[k].setColumn(expectedPoints[k].column + yMoves[j]);
+						expectedPoints[k].setRow(expectedPoints[k].row + yMoves[j]);
+						expectedPoints[k].setColumn(expectedPoints[k].column + xMoves[i]);
 					}
 				}
 				
 				// Verify the expected results
-				testObject.move(xMoves[i], yMoves[j]);
+				boolean wasLegalMove = testObject.move(xMoves[i], yMoves[j]);
 				Cell[] actualResults = testObject.getCells();
+				assertEquals(isLegalMove, wasLegalMove);
 				assertEquals(expectedPoints.length, actualResults.length);
 				assertNotSame(expectedPoints, actualResults);
-				//System.err.println("i "+(i-2)+" j "+(j-2));
+				//System.err.println("i "+xMoves[i]+" j "+yMoves[j]);
 				for(int k=0; k < actualResults.length; k++){
-				//	System.err.println(expectedPoints[k] + "=" + actualResults[k]);
+					//System.err.println(expectedPoints[k] + "=" + actualResults[k]);
 					assertTrue(actualResults[k].equals(expectedPoints[k]));
 					assertNotSame(actualResults[k], expectedPoints[k]);
 				}

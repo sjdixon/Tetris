@@ -108,7 +108,7 @@ public class ChromosomeTest {
 			testObjects[i].setFitnessThreshold(testObjects[i].getScore());
 			for(int j=0; j < numChroms; j++){
 
-				System.err.println(i + " " +j);
+				//System.err.println(i + " " +j);
 				boolean expectedResult;
 				if(j < i){
 					expectedResult = false;

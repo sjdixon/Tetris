@@ -36,11 +36,12 @@ public class LuckysScoringHelperTest {
 		int[] actualHeights = new int[width];
 		assertTrue(height >= width);
 		for(int i=0; i < width; i++){
-			actualHeights[i] = testObject.calculateHeightOfColumn(i);
+			actualHeights[i] = testObject.calculateColumnHeight(i);
 			expectedHeights[i] = i+1;
 			assertEquals(expectedHeights[i], actualHeights[i]);
 		}
 	}
+	
 	
 	@Test
 	public void testCountingHoles() {
@@ -110,6 +111,8 @@ public class LuckysScoringHelperTest {
 	
 	@Test
 	public void testCheckingFloor(){
+		testContext = new Well(height, width);
+		testObject = new LuckysScoringHelper(testContext);
 		boolean[] actualResults = {
 				testObject.isCellAdjacentToFloor(0, 0),
 				testObject.isCellAdjacentToFloor(0, width-1),
@@ -124,8 +127,16 @@ public class LuckysScoringHelperTest {
 				true, true, false, false, false, true, false, false
 		};
 		assertEquals(expectedResults.length, actualResults.length);
-		for(int i=0; i < expectedResults.length; i++)
+		for(int i=0; i < expectedResults.length; i++){
+		//	System.err.println(i);
 			assertEquals(expectedResults[i], actualResults[i]);
+		}
+		
+		// Additional test is called for
+		int heightOfColumn = testObject.calculateColumnHeight(0);
+		int expectedColumnHeight = 0;
+		assertEquals(expectedColumnHeight, heightOfColumn);
+			
 	}
 
 	@Test

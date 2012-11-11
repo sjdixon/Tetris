@@ -6,8 +6,8 @@ public class Cell {
 	
 	public Cell(int x, int y)
 	{
-		this.row = x;
-		this.column = y;
+		this.row = y;
+		this.column = x;
 	}
 	
 	public int getRow()
@@ -34,7 +34,9 @@ public class Cell {
 	}
 	
 	public String toString(){
-		return "("+row+"),("+column+")";
+		
+		// show in form (X),(Y)
+		return "("+column+","+row+")";
 	}
 	
 	public boolean equals(Object p){

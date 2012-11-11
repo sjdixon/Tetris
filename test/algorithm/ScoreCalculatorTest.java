@@ -2,12 +2,15 @@ package algorithm;
 
 import static org.junit.Assert.*;
 
+
 import java.util.Random;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import blocks.IBlock;
+import blocks.Square;
+import blocks.L_Block;
 import algorithms.ICalculator;
 import algorithms.ScoreCalculator;
 import data.Chromosome;
@@ -21,13 +24,13 @@ public class ScoreCalculatorTest {
 	protected double[] coefficients;
 	protected IWell well;
 	protected IChromosome testChrom;
-	
+	protected final int WIDTH = 10;
+	protected final int HEIGHT = 20;
+	protected final double DELTA = 0.0001;
 	
 	@Before
 	public void setUp(){
-		int height = 3;
-		int width = 3;
-		well = new Well(height, width);
+		well = new Well(HEIGHT, WIDTH);
 		
 		Random gen = new Random();
 		coefficients = new double[IChromosome.NUM_COEFFICIENTS];
@@ -40,12 +43,59 @@ public class ScoreCalculatorTest {
 	
 	@Test
 	public void testFloorBonus() {
-		fail("Not yet implemented");
+		IBlock square = new Square(this.well);
+		square.drop();
+		double result = testObject.calculateFloorBonus(square); 
+		double expectedResult = 2 * testChrom.getFloorCoefficient();
+		assertEquals(expectedResult, result, DELTA);
+		
+		square.moveUp();
+		result = testObject.calculateFloorBonus(square);
+		expectedResult = 0;
+		assertEquals(expectedResult, result, DELTA);
+	}
+	@Test
+	public void testFloorSpecialCase(){
+		IBlock square = new Square(this.well);
+		well.fillCell(0,5);
+		well.fillCell(0,4);
+		square.drop();
+		double result = testObject.calculateFloorBonus(square);
+		double expectedResult = 2 * testChrom.getFloorCoefficient();
+		assertEquals(expectedResult, result, DELTA);
+		
+		square.moveLeft();
+		result = testObject.calculateFloorBonus(square);
+		expectedResult = 1 * testChrom.getFloorCoefficient();
+		assertEquals(expectedResult, result, DELTA);
 	}
 	
 	@Test
 	public void testWallBonus(){
-		fail();
+		IBlock lshape = new L_Block(this.well);
+		lshape.drop();
+		
+		// Assert no wall bonus
+		double expectedBonus = 0;
+		double actualBonus = testObject.calculateWallBonus(lshape);
+		assertEquals(expectedBonus, actualBonus, DELTA);
+		
+		// Move to left wall
+		boolean moveLeft = lshape.moveLeft();
+		while(moveLeft==true)
+			moveLeft = lshape.moveLeft();
+		expectedBonus = 2 * testChrom.getWallCoefficient();
+		actualBonus = testObject.calculateWallBonus(lshape);
+		assertEquals(expectedBonus, actualBonus, DELTA);
+		
+		// Move to the right wall
+		boolean moveRight = lshape.moveRight();
+		while(moveRight==true)
+			moveRight = lshape.moveRight();
+		expectedBonus = 1 * testChrom.getWallCoefficient();
+		actualBonus = testObject.calculateWallBonus(lshape);
+		assertEquals(expectedBonus, actualBonus, DELTA);
+		
 	}
 	
 	@Test

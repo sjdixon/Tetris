@@ -66,7 +66,10 @@ public class LuckysScoringHelper implements IScoreHelper{
 	@Override
 	public boolean isCellAdjacentToFloor(int r, int c) {
 		// TODO Auto-generated method stub
-		return r==0;
+		int lowestEmptyRow = calculateColumnHeight(c);
+		if(lowestEmptyRow==r)
+			return true;
+		else return false;
 	}
 	
 	@Override
@@ -74,7 +77,7 @@ public class LuckysScoringHelper implements IScoreHelper{
 	 * This function returns the row number above the highest occupied cell in a column.
 	 * ie. if the highest cell is in row 2, this function returns 3.
 	 */
-	public int calculateHeightOfColumn(int column){
+	public int calculateColumnHeight(int column){
 		int height = 0;
 		for(int i=cellWell.getHeight()-1; i>=0; i--){
 			if(cellWell.isCellFull(i, column)==true){

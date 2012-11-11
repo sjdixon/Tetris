@@ -99,9 +99,17 @@ public class Well implements IWell{
 		for(int i=fullCells.length-1; i >=0; i--){
 			for(int j=0; j < fullCells[i].length; j++){
 				matrix += fullCells[i][j] + "  ";
+				if(fullCells[i][j]==true)
+					matrix+=" ";
 			}
 			matrix += "\n";
 		}
 		return matrix;
+	}
+
+	@Override
+	public void readHexadecimalBoard(String hexadecimal) {
+		// TODO Auto-generated method stub
+		
 	}
 }
