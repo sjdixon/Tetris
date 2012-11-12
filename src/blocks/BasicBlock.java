@@ -71,6 +71,9 @@ public abstract class BasicBlock implements IBlock{
 	public int getRotation(){
 		return rotation;
 	}
+	public void setRotation(int newValue){
+		rotation = newValue;
+	}
 	
 	@Override
 	public Cell getOrigin(){

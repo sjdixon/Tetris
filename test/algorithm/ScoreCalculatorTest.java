@@ -8,9 +8,7 @@ import java.util.Random;
 import org.junit.Before;
 import org.junit.Test;
 
-import blocks.IBlock;
-import blocks.Square;
-import blocks.L_Block;
+import blocks.*;
 import algorithms.ICalculator;
 import algorithms.ScoreCalculator;
 import data.Chromosome;
@@ -100,7 +98,21 @@ public class ScoreCalculatorTest {
 	
 	@Test
 	public void testHeightDeduction(){
-		fail();
+		IBlock jBlock = new J_Block(well);
+		jBlock.drop();
+		RotationAdapter adapter = new RotationAdapter(well);
+		jBlock = adapter.rotateLeft(jBlock);
+		// First test that the jblock landed
+		Cell[] expectedCells = {
+				new Cell(5,1),
+				new Cell(6,2),
+				new Cell(5,2),
+				new Cell(5,0)
+		};
+		for(int i=0; i < expectedCells.length; i++){
+			System.err.println(jBlock.getCells()[i]);
+			assertEquals(expectedCells[i], jBlock.getCells()[i]);
+		}
 	}
 	
 	@Test

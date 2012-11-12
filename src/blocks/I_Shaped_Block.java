@@ -8,12 +8,16 @@ public class I_Shaped_Block extends BasicBlock {
 		Cell[] cells = {
 				new Cell(5, 19),
 				new Cell(4, 19),
-				new Cell(3, 19),
-				new Cell(6, 19)
+				new Cell(6, 19),
+				new Cell(3, 19)
 		};
 		this.points = cells;
 		this.wellReference = well;
 		rotation = FLAT;
+	}
+	@Override
+	public int numRotations(){
+		return 2;
 	}
 	
 	@Override
@@ -27,14 +31,15 @@ public class I_Shaped_Block extends BasicBlock {
 			newCells[1] = new Cell(row+1, column);
 			newCells[2] = new Cell(row-1, column);
 			newCells[3] = new Cell(row-2, column);
-			rotation = TALL;
 		}
 		else {
 			newCells[1] = new Cell(row, column-1);
-			newCells[2] = new Cell(row, column-2);
 			newCells[3] = new Cell(row, column+1);
-			rotation = FLAT;
+			newCells[2] = new Cell(row, column-2);
 		}
+		newCells[1].flip();
+		newCells[2].flip();
+		newCells[3].flip();
 		return newCells;
 	}
 

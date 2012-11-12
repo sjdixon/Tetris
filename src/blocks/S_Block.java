@@ -7,14 +7,19 @@ public class S_Block extends BasicBlock {
 	
 	public S_Block(IWell well){
 		Cell[] cells = {
-				new Cell(19, 5),
-				new Cell(19, 6),
-				new Cell(18, 5),
-				new Cell(18, 4)
+				new Cell(5,19),
+				new Cell(6,19),
+				new Cell(4,18),
+				new Cell(5,18)
 		};
 		this.points = cells;
 		this.wellReference = well;
 		rotation = FLAT;
+	}
+
+	@Override
+	public int numRotations(){
+		return 2;
 	}
 	
 	@Override
@@ -28,14 +33,16 @@ public class S_Block extends BasicBlock {
 			newCells[1] = new Cell(r+1, c);
 			newCells[2] = new Cell(r, c+1);
 			newCells[3] = new Cell(r-1, c+1);
-			rotation = TALL;
 		}
 		else {
 			newCells[1] = new Cell(r, c+1);
-			newCells[2] = new Cell(r-1, c);
-			newCells[3] = new Cell(r-1, c-1);
-			rotation = FLAT;
+			newCells[2] = new Cell(r-1, c-1);
+			newCells[3] = new Cell(r-1, c);
 		}
+		// Correction Code
+		newCells[1].flip();
+		newCells[2].flip();
+		newCells[3].flip();
 		return newCells;
 	}
 

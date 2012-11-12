@@ -10,48 +10,92 @@ public class RotationAdapter implements IRotation{
 	}
 	
 	public IBlock rotateLeft(IBlock b){
-		Cell[] pieces = b.rotateLeft();
 		Class<? extends IBlock> blockClass = b.getClass();
-		IBlock block = createBlock(blockClass, pieces);
+		IBlock block = createBlock(blockClass);
+		int nextRotation = nextRotation(b, false);
+		b.setRotation(nextRotation);
+		Cell[] pieces = b.rotateLeft();
+		block.setPoints(pieces);
+		block.setRotation(nextRotation);
 		return block;
+	}
+	
+	public int nextRotation(IBlock b, boolean rotateRight){
+		int initialRotation = b.getRotation();
+		int nextRotation;
+		if(rotateRight==true){
+			nextRotation = (initialRotation+3)%b.numRotations();
+		}
+		else {
+			nextRotation = (initialRotation+1)%b.numRotations();
+		}
+		return nextRotation;
 	}
 	
 	public IBlock rotateRight(IBlock b){
-		Cell[] pieces = b.rotateRight();
 		Class<? extends IBlock> blockClass = b.getClass();
-		IBlock block = createBlock(blockClass, pieces);
+		IBlock block = createBlock(blockClass);
+		int nextRotation = nextRotation(b, true);
+		b.setRotation(nextRotation);
+		Cell[] pieces = b.rotateRight();
+		block.setPoints(pieces);
+		block.setRotation(nextRotation);
 		return block;
-		
 	}
 	
-	public IBlock createBlock(Class<? extends IBlock> blockClass, Cell[] cells){
+	
+	public boolean areBlocksEqual(IBlock b1, IBlock b2){
+		boolean areEqual = true;
+		if(b1.getClass()!=b2.getClass())
+			areEqual = false;
+		else if(b1.getCells().length != b2.getCells().length){
+			areEqual = false;
+		}
+		else if(b1.getRotation()!=b2.getRotation())
+			areEqual = false;
+		else {
+			for(int i=0; i < b1.getCells().length; i++){
+				Cell c1 = b1.getCells()[i];
+				Cell c2 = b2.getCells()[i];
+				if(c1.equals(c2)==false){
+					areEqual=false;
+					break;
+				}
+			}
+		}
+		return areEqual;
+	}
+	
+	public IBlock createBlock(Class<? extends IBlock> blockClass){
 		String name = blockClass.getName();
 		IBlock creation = null;
 		switch(name){
-		case "J_Block":
+		case "blocks.J_Block":
 			creation = new J_Block(well);
 			break;
-		case "L_Block":
+		case "blocks.L_Block":
 			creation = new L_Block(well);
 			break;
-		case "S_Block":
+		case "blocks.S_Block":
 			creation = new S_Block(well);
 			break;
-		case "T_Block":
+		case "blocks.T_Block":
 			creation = new T_Block(well);
 			break;
-		case "Z_Block":
+		case "blocks.Z_Block":
 			creation = new Z_Block(well);
 			break;
-		case "I_Shaped_Block":
+		case "blocks.I_Shaped_Block":
 			creation = new I_Shaped_Block(well);
 			break;
-		case "Square":
+		case "blocks.Square":
 			creation = new Square(well);
 			break;
+		default:
+			creation = null;
+			break;
 		}
-		creation.setPoints(cells);
-		return null;
+		return creation;
 	}
 
 }

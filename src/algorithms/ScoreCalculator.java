@@ -68,7 +68,7 @@ public class ScoreCalculator implements ICalculator{
 	}
 
 	@Override
-	public double calculateScore() {
+	public double calculateScore(IBlock b) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

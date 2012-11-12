@@ -7,7 +7,9 @@ public interface IBlock {
 	public final int FLAT = 0;
 	public final int TALL = 1;
 	public Cell getOrigin();
+	public void setRotation(int value);
 	public int getRotation();
+	public int numRotations();
 	public void drop();
 	
 	public boolean move(int dx, int dy);

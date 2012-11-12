@@ -46,4 +46,10 @@ public class Cell {
 			return true;
 		else return false;
 	}
+	
+	public void flip(){
+		int temp = row;
+		row=column;
+		column = temp;
+	}
 }

@@ -33,12 +33,38 @@ public class LuckysAlgorithm implements IAlgorithm {
 	
 	@Override
 	public IBlock calculateBestMove() {
-		IBlock move = null;
 		IBlock bestMove = null;
-		double bestScore = Double.NEGATIVE_INFINITY;
-		
+		IBlock[] moves = calculateAllMoves();
+		double[] scores = calculateAllScores(moves);
+		int bestScoreIndex = calculateIndexOfMinimum(scores);
+		bestMove = moves[bestScoreIndex];
+		return bestMove;
+	}
+	
+	protected IBlock[] calculateAllMoves(){
+		//TODO
 		return null;
 	}
+	
+	protected double[] calculateAllScores(IBlock[] moves){
+		double[] scores = new double[moves.length];
+		for(int i=0; i < moves.length; i++)
+			scores[i] = calculator.calculateScore(moves[i]);
+		return scores;
+	}
+	
+	protected int calculateIndexOfMinimum(double[] scores){
+		double bestScore = Double.NEGATIVE_INFINITY;
+		int bestIndex = 0;
+		for(int i=0; i < scores.length; i++){
+			if(bestScore < scores[i]){
+				bestIndex = i;
+				bestScore = scores[i];
+			}
+		}
+		return bestIndex;
+	}
+	
 
 	@Override
 	public void setChromosome(IChromosome chromosome) {

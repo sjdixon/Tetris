@@ -10,6 +10,6 @@ public interface ICalculator {
 	public double calculateWallBonus(IBlock b);
 	public double calculateBlockadeDeduction(IBlock b);
 	public double calculateHoleDeduction(IBlock b);
-	public double calculateScore();
+	public double calculateScore(IBlock b);
 	public IChromosome getChromosome();
 }

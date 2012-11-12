@@ -24,6 +24,11 @@ public class BasicBlockTest  {
 		public Cell[] rotateRight() {
 			return null;
 		}
+		@Override
+		public int numRotations() {
+			// TODO Auto-generated method stub
+			return 0;
+		}
 	}
 	
 	protected IWell testContext;
@@ -267,5 +272,9 @@ public class BasicBlockTest  {
 			assertTrue(expected[i].equals(actual[i]));
 			assertNotSame(expected[i], actual[i]);
 		}
+	}
+	
+	public int numRotations(){
+		throw new RuntimeException("Do not call this method");
 	}
 }
