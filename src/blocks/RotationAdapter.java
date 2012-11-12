@@ -10,13 +10,17 @@ public class RotationAdapter implements IRotation{
 	}
 	
 	public IBlock rotateLeft(IBlock b){
+		// Create the block to rotate
 		Class<? extends IBlock> blockClass = b.getClass();
 		IBlock block = createBlock(blockClass);
 		int nextRotation = nextRotation(b, false);
-		b.setRotation(nextRotation);
-		Cell[] pieces = b.rotateLeft();
-		block.setPoints(pieces);
+		
+		//Rotate the block
+		block.setPoints(b.getCells());
 		block.setRotation(nextRotation);
+		Cell[] newCells = block.rotateLeft();
+		block.setPoints(newCells);
+		
 		return block;
 	}
 	
@@ -33,37 +37,18 @@ public class RotationAdapter implements IRotation{
 	}
 	
 	public IBlock rotateRight(IBlock b){
+		// Create the block to rotate
 		Class<? extends IBlock> blockClass = b.getClass();
 		IBlock block = createBlock(blockClass);
 		int nextRotation = nextRotation(b, true);
-		b.setRotation(nextRotation);
-		Cell[] pieces = b.rotateRight();
-		block.setPoints(pieces);
+		
+		//Rotate the block
+		block.setPoints(b.getCells());
 		block.setRotation(nextRotation);
+		Cell[] newCells = block.rotateRight();
+		block.setPoints(newCells);
+		
 		return block;
-	}
-	
-	
-	public boolean areBlocksEqual(IBlock b1, IBlock b2){
-		boolean areEqual = true;
-		if(b1.getClass()!=b2.getClass())
-			areEqual = false;
-		else if(b1.getCells().length != b2.getCells().length){
-			areEqual = false;
-		}
-		else if(b1.getRotation()!=b2.getRotation())
-			areEqual = false;
-		else {
-			for(int i=0; i < b1.getCells().length; i++){
-				Cell c1 = b1.getCells()[i];
-				Cell c2 = b2.getCells()[i];
-				if(c1.equals(c2)==false){
-					areEqual=false;
-					break;
-				}
-			}
-		}
-		return areEqual;
 	}
 	
 	public IBlock createBlock(Class<? extends IBlock> blockClass){

@@ -91,4 +91,37 @@ public abstract class BasicBlock implements IBlock{
 		}
 	}
 	
+	@Override
+	public boolean equals(Object b2){
+		boolean areEqual = true;
+		if(this.getClass()!=b2.getClass())
+			areEqual = false;
+		else if(this.getCells().length != ((IBlock) b2).getCells().length){
+			areEqual = false;
+		}
+		else if(this.getRotation()!=((IBlock) b2).getRotation())
+			areEqual = false;
+		else if(((IBlock) b2).getCells().length!=this.points.length)
+			areEqual = false;
+		else {
+			Cell[] b2Cells = ((IBlock) b2).getCells();
+			for(int i=0; i < this.getCells().length; i++){
+				Cell c1 = this.points[i];
+				boolean matchingCellExists = false;
+				for(int j=0; j < b2Cells.length; j++){
+					Cell c2 = b2Cells[j];
+					if(c1.equals(c2)==true){
+						matchingCellExists = true;
+					}
+				}
+				if(matchingCellExists==false){
+					areEqual = false;
+					break;
+				}
+			}	
+		}
+		return areEqual;
+		
+	}
+	
 }

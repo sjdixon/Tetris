@@ -105,14 +105,19 @@ public class ScoreCalculatorTest {
 		// First test that the jblock landed
 		Cell[] expectedCells = {
 				new Cell(5,1),
-				new Cell(6,2),
 				new Cell(5,2),
+				new Cell(6,2),
 				new Cell(5,0)
 		};
+		double expectedHeightDeduction = 0;
 		for(int i=0; i < expectedCells.length; i++){
 			System.err.println(jBlock.getCells()[i]);
 			assertEquals(expectedCells[i], jBlock.getCells()[i]);
+			expectedHeightDeduction+= expectedCells[i].getRow() * testChrom.getHeightCoefficient();
 		}
+		double actualHeightDeduction = testObject.calculateHeightDeduction(jBlock);
+		assertEquals(expectedHeightDeduction, actualHeightDeduction, DELTA);
+		
 	}
 	
 	@Test

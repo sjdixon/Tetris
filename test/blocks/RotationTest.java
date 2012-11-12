@@ -53,7 +53,7 @@ public class RotationTest {
 				if(j==expectedMatches[i])
 					expectedValue = true;
 				else expectedValue = false;
-				actualValue = adapter.areBlocksEqual(rotations[i], rotations[j]);
+				actualValue = rotations[i].equals(rotations[j]);
 			}
 		}
 		testRotationValue();
@@ -150,31 +150,71 @@ public class RotationTest {
 				new Cell(6,2),
 				new Cell(5,0)
 		};
-		for(int i=0; i < expectedCells.length; i++){
-			System.err.println(jBlock.getCells()[i]+","+expectedCells[i]);
-			assertEquals(expectedCells[i], jBlock.getCells()[i]);
-		}
+		IBlock testBlock = new J_Block(testContext);
+		testBlock.setPoints(expectedCells);
+		testBlock.setRotation(1);
+		assertEquals(true, jBlock.equals(testBlock));
 	}
 	
 	@Test
 	public void testRotationValueUnit(){
 		// Setup
-		IBlock b = new Square(testContext); // it doesn't really matter which block it is
+		IBlock b = new L_Block(testContext); // it doesn't really matter which block it is
 		RotationAdapter adapter = new RotationAdapter(testContext);
 		int[] inputs = {0,1,2,3};
 		int[] expectedLeftOutputs = {1,2,3,0};
-		int[] expectedRightOutputs = {3,2,1,0};
+		int[] expectedRightOutputs = {3,0,1,2};
 		
 		int[] actualLeftOutputs = new int[inputs.length];
 		int[] actualRightOutputs = new int[inputs.length];
 		
 		// Verify and assert
 		for(int i=0; i < inputs.length; i++){
+			System.out.println(i);
 			b.setRotation(inputs[i]);
 			actualLeftOutputs[i] = adapter.nextRotation(b, false);
 			assertEquals(expectedLeftOutputs[i], actualLeftOutputs[i]);
 			actualRightOutputs[i] = adapter.nextRotation(b, true);
 			assertEquals(expectedRightOutputs[i], actualRightOutputs[i]);
 		}
+	}
+	
+	@Test
+	public void testEquality(){
+		IBlock block = new J_Block(testContext);
+		IBlock equal = new J_Block(testContext);
+		IBlock equalAfterDrop = new J_Block(testContext);
+		IBlock notSameClass = new L_Block(testContext);
+		IBlock notEqual = new J_Block(testContext);
+		IBlock equalAfterLeftRotation = new J_Block(testContext);
+		
+		equalAfterDrop.drop();
+		notEqual.moveDown();
+		equalAfterLeftRotation.drop();
+		equalAfterLeftRotation = adapter.rotateLeft(equalAfterLeftRotation);
+		
+		assertEquals(true, block.equals(equal));
+		assertEquals(false, block.equals(equalAfterDrop));
+		assertEquals(false, block.equals(notSameClass));
+		assertEquals(false, block.equals(equalAfterLeftRotation));
+		
+		block.drop();
+		assertEquals(true, block.equals(equalAfterDrop));
+		assertEquals(false, block.equals(equal));
+		assertEquals(false, block.equals(notSameClass));
+		assertEquals(false, block.equals(equalAfterLeftRotation));
+		
+		block = adapter.rotateLeft(block);
+		assertEquals(false, block.equals(equalAfterDrop));
+		assertEquals(false, block.equals(equal));
+		assertEquals(false, block.equals(notSameClass));
+		assertEquals(true, block.equals(equalAfterLeftRotation));
+		
+
+		block = adapter.rotateRight(block);
+		assertEquals(true, block.equals(equalAfterDrop));
+		assertEquals(false, block.equals(equal));
+		assertEquals(false, block.equals(notSameClass));
+		assertEquals(false, block.equals(equalAfterLeftRotation));
 	}
 }

@@ -23,8 +23,12 @@ public class ScoreCalculator implements ICalculator{
 	
 	@Override
 	public double calculateHeightDeduction(IBlock b) {
-		// TODO Auto-generated method stub
-		return 0;
+		double score = 0;
+		Cell[] cells = b.getCells();
+		for(int i=0; i < cells.length; i++){
+			score += cells[i].getRow() * chromosome.getHeightCoefficient();
+		}
+		return score;
 	}
 
 	@Override
