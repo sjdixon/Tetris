@@ -16,7 +16,8 @@ public class LuckysScoringHelper implements IScoreHelper{
 	 */
 	public int countHolesBelowCell(int r, int c) {
 		int holes = 0;
-		for(int i=r-1; i>=0; i--)
+		int columnHeight = calculateColumnHeight(c);
+		for(int i=columnHeight-1; i>=0; i--)
 			if(cellWell.isCellEmpty(i, c)==true)
 				holes++;
 		return holes;
@@ -43,9 +44,6 @@ public class LuckysScoringHelper implements IScoreHelper{
 			if(isHolePresent==true && cellWell.isCellFull(i, c)==true)
 				blockades++;
 		}
-		// Finally, if there is a hole present in column c, we should add one more because of precondition #1.
-		if(isHolePresent==true)
-			blockades++;
 		return blockades;
 	}
 

@@ -61,14 +61,60 @@ public class ScoreCalculator implements ICalculator{
 
 	@Override
 	public double calculateBlockadeDeduction(IBlock b) {
-		// TODO Auto-generated method stub
-		return 0;
+		double score = 0;
+		Cell[] cells = b.getCells();
+		for(int i=0; i < cells.length; i++){
+			int numBlockades = helper.countBlockades(cells[i]);
+			score += chromosome.getBlockadeCoefficient() * numBlockades;
+		}
+		return score;
 	}
 
 	@Override
 	public double calculateHoleDeduction(IBlock b) {
-		// TODO Auto-generated method stub
-		return 0;
+		double score = 0;
+		Cell[] cells = b.getCells();
+		// Count the number of holes in each column exactly once
+		int[] uniqueColumns = new int[cells.length];
+		uniqueColumns[0] = cells[0].getColumn();
+		int numHoles = countHoles(b);
+		score = numHoles * chromosome.getHoleCoefficient();
+		return score;
+	}
+	
+	public int countHoles(IBlock b){
+		// First, calculate the lowest row of each unique column
+		int[] uniqueColumns = new int[4];
+		int[] lowestColumn = new int[4];
+		Cell[] cells = b.getCells();
+		int k=1;
+		uniqueColumns[0] = cells[0].getColumn();
+		lowestColumn[0] = cells[0].getRow();
+		for(int i=0; i < uniqueColumns.length; i++){
+			uniqueColumns[i] = -1;
+			int current = cells[i].getColumn();
+			boolean isUnique = true;
+			for(int j=0; j < k; j++){
+				if(current==uniqueColumns[j]){
+					isUnique = false;
+					if(lowestColumn[j] > cells[i].getRow())
+						lowestColumn[j] = cells[i].getRow();
+					break;
+				}
+			}
+			if(isUnique==true){
+				uniqueColumns[k] = current;
+				lowestColumn[k] = cells[i].getRow();
+				k++;
+			}
+		}
+		// Count the number of holes under the lowest cell within each unique column
+		int numHoles = 0;
+		for(int i=0; i < k; i++){
+			Cell arg = new Cell(uniqueColumns[i], lowestColumn[i]);
+			numHoles += helper.countHolesBelowCell(arg);
+		}
+		return numHoles;
 	}
 
 	@Override

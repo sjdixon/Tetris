@@ -30,14 +30,14 @@ public class S_Block extends BasicBlock {
 		int r = origin.row;
 		int c = origin.column;
 		if(rotation==FLAT){
+			newCells[1] = new Cell(r, c+1);
+			newCells[2] = new Cell(r-1,c-1 );
+			newCells[3] = new Cell(r-1, c);
+		}
+		else {
 			newCells[1] = new Cell(r+1, c);
 			newCells[2] = new Cell(r, c+1);
 			newCells[3] = new Cell(r-1, c+1);
-		}
-		else {
-			newCells[1] = new Cell(r, c+1);
-			newCells[2] = new Cell(r-1, c-1);
-			newCells[3] = new Cell(r-1, c);
 		}
 		// Correction Code
 		newCells[1].flip();

@@ -1,5 +1,6 @@
 package data;
 
+import blocks.Cell;
 import blocks.IBlock;
 
 public class Well implements IWell{
@@ -15,6 +16,23 @@ public class Well implements IWell{
 		return height;
 	}
 
+	public boolean lockBlock(IBlock b){
+		boolean success = true;
+		Cell[] cells = b.getCells();
+		for(int i=0; i < b.getCells().length; i++){
+			if(isCellEmpty(cells[i].getRow(), cells[i].getColumn())==false){
+				success = false;
+				break;
+			}
+		}
+		if(success=true){
+			for(int i=0; i < cells.length; i++)
+				fillCell(cells[i].getRow(), cells[i].getColumn());
+		}
+		
+		return success;
+	}
+	
 	public int getWidth() {
 		return width;
 	}

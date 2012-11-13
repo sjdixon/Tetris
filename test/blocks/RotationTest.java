@@ -61,7 +61,7 @@ public class RotationTest {
 	
 	public void testRotationValue(){
 		int[] expectedValues = new int[16];
-		System.err.println(testObject.getClass());
+		//System.err.println(testObject.getClass());
 		for(int i=0; i < 4; i++){
 			expectedValues[i] = (3-i)%testObject.numRotations();
 			expectedValues[i+4] = (i+1)%testObject.numRotations();
@@ -71,7 +71,7 @@ public class RotationTest {
 		int[] actualValues = new int[16];
 		for(int i=0; i < actualValues.length; i++){
 			actualValues[i] = rotations[i].getRotation();
-			System.err.println( "expected:"+expectedValues[i] + " actual:"+actualValues[i]);
+			//System.err.println( "expected:"+expectedValues[i] + " actual:"+actualValues[i]);
 			assertEquals(expectedValues[i], actualValues[i]);
 		}
 	}

@@ -96,7 +96,7 @@ public class LuckysScoringHelperTest {
 		
 		//Initialize the expected results
 		int[] expectedResults = {
-			3,3,0,3,1
+			2,2,0,2,0
 		};
 		assertEquals(expectedResults.length, testContext.getWidth());
 		

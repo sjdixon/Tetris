@@ -20,14 +20,14 @@ public class Z_Block extends BasicBlock{
 		int r = rotated[0].row;
 		int c = rotated[0].column;
 		if(rotation==FLAT){
-			rotated[1] = new Cell(r+1, c+1);
-			rotated[2] = new Cell(r, c+1);
-			rotated[3] = new Cell(r-1, c);
-		}
-		else {
 			rotated[1] = new Cell(r, c-1);
 			rotated[2] = new Cell(r-1, c);
 			rotated[3] = new Cell(r-1, c+1);
+		}
+		else {
+			rotated[1] = new Cell(r+1, c+1);
+			rotated[2] = new Cell(r, c+1);
+			rotated[3] = new Cell(r-1, c);
 		}
 		// Correction Code
 		rotated[1].flip();

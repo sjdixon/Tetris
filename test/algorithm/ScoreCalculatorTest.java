@@ -109,12 +109,7 @@ public class ScoreCalculatorTest {
 				new Cell(6,2),
 				new Cell(5,0)
 		};
-		double expectedHeightDeduction = 0;
-		for(int i=0; i < expectedCells.length; i++){
-			System.err.println(jBlock.getCells()[i]);
-			assertEquals(expectedCells[i], jBlock.getCells()[i]);
-			expectedHeightDeduction+= expectedCells[i].getRow() * testChrom.getHeightCoefficient();
-		}
+		double expectedHeightDeduction = 5 * testChrom.getHeightCoefficient();
 		double actualHeightDeduction = testObject.calculateHeightDeduction(jBlock);
 		assertEquals(expectedHeightDeduction, actualHeightDeduction, DELTA);
 		
@@ -122,22 +117,138 @@ public class ScoreCalculatorTest {
 	
 	@Test
 	public void testHoleDeduction(){
-		fail();
+		IBlock[] cases = createCases();
+		double[] expectedPartialScores = {
+				5, 1, 0, 1
+		};
+		for(int i=0; i < cases.length; i++){
+			double actualScore = testObject.calculateHoleDeduction(cases[i]);
+			double expectedScore = expectedPartialScores[i] * testChrom.getHoleCoefficient();
+			assertEquals(expectedScore, actualScore, DELTA);
+		}
 	}
 	
 	@Test
 	public void testRowClearance(){
-		fail();
+		setupWellForClearance();
+		IBlock lBlock = new L_Block(well);
+		RotationAdapter adapter = new RotationAdapter(well);
+		lBlock.moveDown();
+		lBlock.move(3, 0);
+		lBlock = adapter.rotateRight(lBlock);
+		assertEquals(lBlock.getOrigin(), new Cell(8, 18));
+		lBlock.drop();
+		
+		// Test Row Clearance
+		Cell[] expectedCell = new Cell[4];
+		expectedCell[0] = new Cell(1,WIDTH-1);
+		expectedCell[1] = new Cell(2,WIDTH-2);
+		expectedCell[2] = new Cell(2, WIDTH-1);
+		expectedCell[3] = new Cell(0, WIDTH-1);
+		for(int i=0; i < expectedCell.length; i++){
+			assertEquals(expectedCell[i], lBlock.getCells()[i]);
+		}
+		
+		double result = testObject.calculateRowClearanceBonus(lBlock);
+		double expected = testChrom.getRowClearanceCoefficient() * 3;
+		assertEquals(expected, result, DELTA);
+	}
+	
+	@Test
+	public void testCountHoles(){
+		for(int i=0; i < WIDTH; i+=2){
+			well.fillCell(0, i);
+			well.fillCell(1, i+1);
+		}
+		IBlock hugeBlock = createHugeBlock();
+		hugeBlock.drop();
+		
+		double estimatedScore = 4 * testChrom.getHoleCoefficient();
+		double actualScore = testObject.calculateHoleDeduction(hugeBlock);
+		assertEquals(estimatedScore, actualScore, DELTA);
+	}
+	
+	public IBlock createHugeBlock(){
+		IBlock hugeBlock = new I_Shaped_Block(well);
+		Cell[] newCells = new Cell[8];
+		for(int i=0; i < 4; i++){
+			newCells[i] = new Cell(i, 19);
+			newCells[i+4] = new Cell(i, 18);
+		}
+		return hugeBlock;
+	}
+	
+	public void setupWellForClearance(){
+		for(int i=0; i < WIDTH-1; i++){
+			well.fillCell(0, i);
+			well.fillCell(1,i);
+			well.fillCell(2,i);
+		}
+		well.emptyCell(2, WIDTH-2);
 	}
 	
 	@Test
 	public void testBlockade(){
-		fail();
+		IBlock[] cases = createCases();
+		double[] expectedBlockades = {
+				2, 4, 0, 0
+		};
+		for(int i=0; i < cases.length; i++){
+			double actualScore = testObject.calculateBlockadeDeduction(cases[i]);
+			double expectedScore = testChrom.getBlockadeCoefficient() * expectedBlockades[i];
+			assertEquals(expectedScore, actualScore, DELTA);
+		}
+	}
+	
+	public IBlock[] createCases(){
+		createSpecialContextForHolesAndBlockades();
+		
+		IBlock iBlock = new I_Shaped_Block(well);
+		iBlock.move(-3, 0);
+		iBlock.drop();
+		
+		IBlock sBlock = new S_Block(well);
+		RotationAdapter adapter = new RotationAdapter(well);
+		sBlock.moveDown();
+		sBlock = adapter.rotateLeft(sBlock);
+		sBlock.moveLeft();
+		sBlock.drop();
+		
+		IBlock square = new Square(well);
+		square.moveRight();
+		square.moveRight();
+		square.drop();
+		
+		IBlock zBlock = new Z_Block(well);
+		zBlock.moveDown();
+		zBlock.move(3, 0);
+		zBlock = adapter.rotateRight(zBlock);
+		zBlock.drop();
+		
+		IBlock[] cases = new IBlock[4];
+		cases[0] = iBlock;
+		cases[1] = sBlock;
+		cases[2] = square;
+		cases[3] = zBlock;
+		return cases;
 	}
 	
 	@Test
 	public void testScoreCalculation(){
 		fail();
+	}
+	
+	void createSpecialContextForHolesAndBlockades(){
+		for(int i=1; i < WIDTH; i++)
+			well.fillCell(0,i); // first row
+		well.fillCell(1,2);
+		well.fillCell(1, 5);
+		for(int i=0; i <=5; i++){
+			if(i==3)
+				continue;
+			else well.fillCell(2,i);
+		}
+		well.fillCell(3,4);
 	}
 	
 	@Test

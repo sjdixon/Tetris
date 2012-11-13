@@ -14,4 +14,7 @@ public interface IWell {
 	int getWidth();
 	void readHexadecimalBoard(String hexadecimal);
 	int getHeight();
+	
+	boolean lockBlock(IBlock b);
+	
 }
