@@ -1,66 +1,58 @@
 package networking;
+import networking.messages.IOutboundMessage;
+import networking.messages.MatchConnect;
+
+import org.zeromq.ZMQ;
+import org.zeromq.ZMQ.*;
 
 public class GameManager implements IGameManager{
+	Socket commandChannel = null;
+	Socket stateChannel = null;
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args){
-		// Create connections to central game system
-		// Make sure to use the envelope for pub/sub
+	public String CreateConnections(String server) {
+		Context context = ZMQ.context(1);
+		Socket socket = context.socket(ZMQ.REQ);
+		String serverAddress = "tcp://" + server;
+		System.out.println("Connecting to target server, " + serverAddress);
+		socket.connect(serverAddress);
 		
-		//Establish pub/sub ZeroMQ connection to central game system (State Channel)
-		//Establish request/response ZeroMQ connection to the central game system (Command Channel)
+		IOutboundMessage matchConnect = new MatchConnect();
+		String message = matchConnect.createMessage() + " ";
+		byte[] byteMessage = message.getBytes();
+		byteMessage[byteMessage.length-1] = 0;
+		socket.send(byteMessage, 0);
 		
-		// Connect to the match and obtain client token
-		// Note: The match token is provided outside of these channels
-		
-		//Frame connect message
-		//Send connect message over command channel
-		//Receive and store client token
-		
-		// Wait for game to start
-		
-		//Monitor state channel for game board state matching this game
-		
-		
-		// Play the game (intentionally vague)
-		//Monitor the state channel for information
-		//Determine moves for each piece
-		//Frame game move messages and send over command channel
+		byte[] reply = socket.recv(0);
+		String replyMessage = new String(reply, 0, reply.length-1);
+		// Teardown connection
+		socket.close();
+		context.term();
+		return replyMessage;
 	}
 
-	@Override
-	public void CreateConnections() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
+	
 	public void createMatch() {
-		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
+//	@Override
 	public void startGame() {
-		// TODO Auto-generated method stub
-		
+	
 	}
 
-	@Override
+	//@Override
 	public void monitorStateChannel() {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
+	//@Override
 	public void determineMove() {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
+	//@Override
 	public void sendMove() {
 		// TODO Auto-generated method stub
 		
