@@ -5,7 +5,23 @@ import data.IWell;
 public abstract class BasicBlock implements IBlock{
 	protected Cell[] points;
 	protected IWell wellReference;
+	protected String path = "";
 
+	public void appendPath(String appendedString){
+		path += appendedString + " ";
+	}
+	
+	public void reverseLast(){
+		int lastSpace = path.lastIndexOf(' ');
+		if(lastSpace!=-1){
+			path = path.substring(0, lastSpace+1);
+		}
+	}
+	
+	public String getPath(){
+		return path;
+	}
+	
 	public Cell[] getCells() {
 		Cell[] copy = new Cell[points.length];
 		for(int i=0; i < copy.length; i++)
@@ -23,12 +39,18 @@ public abstract class BasicBlock implements IBlock{
 
 	@Override
 	public boolean moveLeft() {
-		return move(-1, 0);
+		boolean success = move(-1, 0);
+		if(success==true)
+			path += "left ";
+		return success;
 	}
 
 	@Override
 	public boolean moveRight() {
-		return move(1,0);
+		boolean success = move(1,0);
+		if(success==true)
+			path += "right ";
+		return success;
 	}
 
 	public boolean move(int dx, int dy){
@@ -57,8 +79,10 @@ public abstract class BasicBlock implements IBlock{
 	}
 	@Override
 	public boolean moveDown() {
-		// TODO Auto-generated method stub
-		return move(0, -1);
+		boolean success = move(0, -1);
+		if(success==true)
+			path += "left ";
+		return success;
 	}
 	
 	@Override
@@ -85,6 +109,15 @@ public abstract class BasicBlock implements IBlock{
 	
 	@Override
 	public void drop(){
+		boolean canGoDownFurther = move(0,-1);
+		path += "drop ";
+		while(canGoDownFurther==true){
+			canGoDownFurther = move(0,-1);
+		}
+	}
+	
+	@Override
+	public void softDrop(){
 		boolean canGoDownFurther = moveDown();
 		while(canGoDownFurther==true){
 			canGoDownFurther = moveDown();

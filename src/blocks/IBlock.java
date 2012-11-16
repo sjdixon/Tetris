@@ -11,6 +11,11 @@ public interface IBlock {
 	public int getRotation();
 	public int numRotations();
 	public void drop();
+	public void softDrop();
+	
+	public String getPath();
+	public void appendPath(String appendedString);
+	public void removeLast();
 	
 	public boolean move(int dx, int dy);
 	public boolean moveLeft();

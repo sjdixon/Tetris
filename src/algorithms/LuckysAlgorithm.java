@@ -1,7 +1,11 @@
 package algorithms;
 
+import java.util.LinkedList;
+
 import blocks.Cell;
 import blocks.IBlock;
+import blocks.IRotation;
+import blocks.RotationAdapter;
 import data.IChromosome;
 import data.IScoreHelper;
 import data.IWell;
@@ -10,7 +14,7 @@ import data.LuckysScoringHelper;
 // Inspired by http://luckytoilet.wordpress.com/2011/05/27/coding-a-tetris-ai-using-a-genetic-algorithm/
 
 public class LuckysAlgorithm implements IAlgorithm {
-	protected IBlock incomingPiece;
+	protected IBlock currentPiece;
 	protected IBlock nextPiece;
 	protected IWell well;
 	protected ICalculator calculator;
@@ -18,13 +22,13 @@ public class LuckysAlgorithm implements IAlgorithm {
 	public LuckysAlgorithm(IWell well, IChromosome chromosome){
 		this.well = well;
 		calculator = new ScoreCalculator(well, chromosome);
-		incomingPiece = null;
+		currentPiece = null;
 		nextPiece = null;
 	}
 	
 	@Override
 	public void setCurrentPiece(IBlock incomingPiece) {
-		this.incomingPiece = incomingPiece;
+		this.currentPiece = incomingPiece;
 	}
 	@Override
 	public void setNextPiece(IBlock nextPiece) {
@@ -43,7 +47,13 @@ public class LuckysAlgorithm implements IAlgorithm {
 	
 	protected IBlock[] calculateAllMoves(){
 		//TODO
-		return null;
+		LinkedList<IBlock> list = new LinkedList<IBlock>();
+		IRotation adapter = new RotationAdapter(well);
+		
+			
+			
+		IBlock[] array = (IBlock[]) list.toArray();
+		return array;
 	}
 	
 	protected double[] calculateAllScores(IBlock[] moves){

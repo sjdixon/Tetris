@@ -274,7 +274,25 @@ public class BasicBlockTest  {
 		}
 	}
 	
-	public int numRotations(){
-		throw new RuntimeException("Do not call this method");
+	@Test
+	public void testGetPath(){
+		String expected = "down left left down right right down lrotate rrotate drop";
+		IBlock object = new I_Shaped_Block(testContext);
+		object.moveDown();
+		object.moveLeft();
+		object.moveLeft();
+		object.moveDown();
+		object.moveUp();
+		object.moveRight();
+		object.moveRight();
+		object.moveDown();
+		RotationAdapter adapter = new RotationAdapter(testContext);
+		object = adapter.rotateLeft(object);
+		object = adapter.rotateRight(object);
+		object.drop();
+		
+		String actual = object.getPath();
+		assertEquals(expected, actual);
 	}
+	
 }
