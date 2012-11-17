@@ -58,16 +58,18 @@ final class Communication
 	{
 		byte[] bytes = message.getBytes();
 		cmdSocket.send(bytes, 0);
-
+		System.out.println(message);
 		// wait for reply
 		return receive(Communication.MessageOrigin.CommandSocket);
 	}
 
 	public String send(String message, String key)
 	{
+		System.out.println(message);
 		String reply = send(message);
 		JSONObject json = null;
 		String value = null;
+		System.out.println(reply);
 
 		try {
 			json = new JSONObject(reply);

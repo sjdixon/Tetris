@@ -2,9 +2,14 @@ package networking;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.ObjectInputStream.GetField;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Scanner;
 
-import java.net.*;
+import networking.Communication.MessageOrigin;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import algorithms.IAlgorithm;
 import algorithms.LuckysAlgorithm;
@@ -12,10 +17,6 @@ import blocks.IBlock;
 import data.Chromosome;
 import data.IChromosome;
 import data.IWell;
-import networking.Communication.MessageOrigin;
-
-import org.json.*;
-
 import data.Well;
 
 final class Client
@@ -54,6 +55,9 @@ final class Client
 		matchToken = args[2];
 		if(testMatch==true){
 			createTestMatch();
+			Scanner sc = new Scanner(System.in);
+			System.out.println("Press enter");
+			sc.next();
 		}
 		else hostName = args[3];
 		Communication.setHostName(hostName);
@@ -79,10 +83,11 @@ final class Client
 
 		///
 		/// ADD ALGORITHM
-		int numGames = 7;
+		int numGames = 51;
 		int numGamesWon = 0;
 		int numGamesLost = 0;
 		for(int game=0; game < numGames; game++){
+			
 			initializeAlgorithm();
 			gameOver = false;
 			while(!gameOver){
