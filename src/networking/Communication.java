@@ -65,7 +65,7 @@ final class Communication
 
 	public String send(String message, String key)
 	{
-		System.out.println(message);
+		System.out.println("comm: " + message);
 		String reply = send(message);
 		JSONObject json = null;
 		String value = null;
