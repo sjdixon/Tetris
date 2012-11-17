@@ -85,33 +85,33 @@ public class ScoreCalculator implements ICalculator{
 	public int countHoles(IBlock b){
 		// First, calculate the lowest row of each unique column
 		int[] uniqueColumns = new int[4];
-		int[] lowestColumn = new int[4];
+		int[] lowestRow = new int[4];
 		Cell[] cells = b.getCells();
 		int k=1;
 		uniqueColumns[0] = cells[0].getColumn();
-		lowestColumn[0] = cells[0].getRow();
-		for(int i=0; i < uniqueColumns.length; i++){
+		lowestRow[0] = cells[0].getRow();
+		for(int i=1; i < uniqueColumns.length; i++){
 			uniqueColumns[i] = -1;
 			int current = cells[i].getColumn();
 			boolean isUnique = true;
 			for(int j=0; j < k; j++){
 				if(current==uniqueColumns[j]){
 					isUnique = false;
-					if(lowestColumn[j] > cells[i].getRow())
-						lowestColumn[j] = cells[i].getRow();
+					if(lowestRow[j] > cells[i].getRow())
+						lowestRow[j] = cells[i].getRow();
 					break;
 				}
 			}
 			if(isUnique==true){
 				uniqueColumns[k] = current;
-				lowestColumn[k] = cells[i].getRow();
+				lowestRow[k] = cells[i].getRow();
 				k++;
 			}
 		}
 		// Count the number of holes under the lowest cell within each unique column
 		int numHoles = 0;
 		for(int i=0; i < k; i++){
-			Cell arg = new Cell(uniqueColumns[i], lowestColumn[i]);
+			Cell arg = new Cell(uniqueColumns[i], lowestRow[i]);
 			numHoles += helper.countHolesBelowCell(arg);
 		}
 		return numHoles;

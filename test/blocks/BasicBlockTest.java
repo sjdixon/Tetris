@@ -276,7 +276,8 @@ public class BasicBlockTest  {
 	
 	@Test
 	public void testGetPath(){
-		String expected = "down left left down right right down lrotate rrotate drop";
+		testContext = new Well(20,10);
+		String expected = "down left left down right right down lrotate rrotate drop ";
 		IBlock object = new I_Shaped_Block(testContext);
 		object.moveDown();
 		object.moveLeft();

@@ -127,12 +127,41 @@ public class Well implements IWell{
 
 	@Override
 	public void readHexadecimalBoard(String hexadecimal) {
-		byte[] wellBitMap = hexadecimal.getBytes();
+		byte[] byteMap = getHexBytes(hexadecimal);
+		boolean[] wellBitMap = booleanArrayFromByte(byteMap);
 		for(int i=0; i < height; i++){
 			for(int j=0; j < width; j++){
-				int bitIndex = (19-i);
+				int bitRow = height-1-i;
+				int bitColumn = j;
+				int bitIndex = bitRow * width + bitColumn;
+				boolean bitValue = wellBitMap[bitIndex];
+				fullCells[i][j] = bitValue;
 			}
 		}
-		
+	}
+	
+	public byte[] getHexBytes(String s){
+		int len = s.length();
+	    byte[] data = new byte[len / 2];
+	    for (int i = 0; i < len; i += 2) {
+	        data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
+	                             + Character.digit(s.charAt(i+1), 16));
+	    }
+	    return data;
+	}
+	
+	public static boolean[] booleanArrayFromByte(byte[] array) {
+		boolean[] bs = new boolean[array.length*8];
+		for(int i=0,j=0; i < bs.length; i+=8,j++){
+		    bs[i] = ((array[j] & 0x80) != 0);
+		    bs[i+1] = ((array[j] & 0x40) != 0);
+		    bs[i+2] = ((array[j] & 0x20) != 0);
+		    bs[i+3] = ((array[j] & 0x10) != 0);
+		    bs[i+4] = ((array[j] & 0x08) != 0);
+		    bs[i+5] = ((array[j] & 0x04) != 0);
+		    bs[i+6] = ((array[j] & 0x02) != 0);
+		    bs[i+7] = ((array[j] & 0x01) != 0);
+		}
+	    return bs;
 	}
 }

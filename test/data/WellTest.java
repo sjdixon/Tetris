@@ -187,6 +187,30 @@ public class WellTest {
 			}
 		}
 		
+		@Test
+		public void hexArraytest(){
+			String input= "0123456789ABCDEF";
+			testObject = new Well(16, 4);
+			testObject.readHexadecimalBoard(input);
+			String expected= 
+					"false  false  false  false  \n" +
+					"false  false  false  true   \n" +
+					"false  false  true   false  \n" +
+					"false  false  true   true   \n" +
+					"false  true   false  false  \n" +
+					"false  true   false  true   \n" +
+					"false  true   true   false  \n" +
+					"false  true   true   true   \n" +
+					"true   false  false  false  \n" +
+					"true   false  false  true   \n" +
+					"true   false  true   false  \n" +
+					"true   false  true   true   \n" +
+					"true   true   false  false  \n" +
+					"true   true   false  true   \n" +
+					"true   true   true   false  \n" +
+					"true   true   true   true   \n";
+			assertEquals(expected, testObject.toString());
+		}
 		
 }
 

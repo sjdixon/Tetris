@@ -14,6 +14,7 @@ public interface IBlock {
 	public void softDrop();
 	
 	public String getPath();
+	public void setPath(String newPath);
 	public void appendPath(String appendedString);
 	public void removeLast();
 	

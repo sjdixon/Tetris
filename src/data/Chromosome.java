@@ -76,12 +76,12 @@ public class Chromosome implements IChromosome{
 	@Override
 	public IChromosome mutate() {
 		double[] newCoefficients = new double[NUM_COEFFICIENTS];
-		newCoefficients[HEIGHT] = generator.nextGaussian() * RANGE;
-		newCoefficients[HOLE] = generator.nextGaussian() * RANGE;
-		newCoefficients[BLOCKADE] = generator.nextGaussian() * RANGE;
+		newCoefficients[HEIGHT] = -1 * generator.nextDouble() * RANGE;
+		newCoefficients[HOLE] = -1 * generator.nextDouble() * RANGE;
+		newCoefficients[BLOCKADE] = -1 * generator.nextDouble() * RANGE;
 		newCoefficients[WALL] = generator.nextGaussian() * RANGE;
 		newCoefficients[FLOOR] = generator.nextGaussian() * RANGE;
-		newCoefficients[ROWCLEAR] = generator.nextGaussian() * RANGE;
+		newCoefficients[ROWCLEAR] = generator.nextDouble() * RANGE;
 		IChromosome offSpring = new Chromosome(newCoefficients);
 		return offSpring;
 	}

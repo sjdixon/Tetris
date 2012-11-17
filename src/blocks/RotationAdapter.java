@@ -20,7 +20,8 @@ public class RotationAdapter implements IRotation{
 		block.setRotation(nextRotation);
 		Cell[] newCells = block.rotateLeft();
 		block.setPoints(newCells);
-		block.appendPath("lrotate ");
+		block.setPath(b.getPath());
+		block.appendPath("lrotate");
 		return block;
 	}
 	
@@ -47,7 +48,8 @@ public class RotationAdapter implements IRotation{
 		block.setRotation(nextRotation);
 		Cell[] newCells = block.rotateRight();
 		block.setPoints(newCells);
-		block.appendPath("rrotate ");
+		block.setPath(b.getPath());
+		block.appendPath("rrotate");
 		
 		return block;
 	}

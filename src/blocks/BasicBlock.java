@@ -11,6 +11,10 @@ public abstract class BasicBlock implements IBlock{
 		path += appendedString + " ";
 	}
 	
+	public void setPath(String path){
+		this.path = path;
+	}
+	
 	@Override
 	public void removeLast(){
 		int lastSpace = path.lastIndexOf(' ');
@@ -42,7 +46,7 @@ public abstract class BasicBlock implements IBlock{
 	public boolean moveLeft() {
 		boolean success = move(-1, 0);
 		if(success==true)
-			path += "left ";
+			appendPath("left");
 		return success;
 	}
 
@@ -50,7 +54,7 @@ public abstract class BasicBlock implements IBlock{
 	public boolean moveRight() {
 		boolean success = move(1,0);
 		if(success==true)
-			path += "right ";
+			appendPath("right");
 		return success;
 	}
 
@@ -82,7 +86,7 @@ public abstract class BasicBlock implements IBlock{
 	public boolean moveDown() {
 		boolean success = move(0, -1);
 		if(success==true)
-			path += "left ";
+			appendPath("down");
 		return success;
 	}
 	
@@ -111,7 +115,7 @@ public abstract class BasicBlock implements IBlock{
 	@Override
 	public void drop(){
 		boolean canGoDownFurther = move(0,-1);
-		path += "drop ";
+		appendPath("drop");
 		while(canGoDownFurther==true){
 			canGoDownFurther = move(0,-1);
 		}
