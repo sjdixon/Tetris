@@ -3,28 +3,31 @@ package networking;
 import org.json.JSONObject;
 import org.json.JSONException;
 
-final class Command
+public final class Command
 {
-	class Key {
-		private static final String TEAM_NAME = "team_name";
+	public class Key {
+		public static final String TEAM_NAME = "team_name";
 		public static final String CLIENT_TOKEN = "client_token";
-		private static final String COMM_TYPE = "comm_type";
-		private static final String MATCH_TOKEN = "match_token";
-		private static final String PASSWORD = "password";
-		private static final String MOVE = "move";
-		private static final String PIECE_NUMBER = "piece_number";
-		private static final String RESP = "resp";
-		private static final String MESSAGE = "message";
-		private static final String SERVER_IP = "server_ip";
-		private static final String STATUS = "status";
-		private static final String REASON = "reason";
-		private static final String ERROR = "error";
+		public static final String COMM_TYPE = "comm_type";
+		public static final String MATCH_TOKEN = "match_token";
+		public static final String PASSWORD = "password";
+		public static final String MOVE = "move";
+		public static final String PIECE_NUMBER = "piece_number";
+		public static final String RESP = "resp";
+		public static final String MESSAGE = "message";
+		public static final String SERVER_IP = "server_ip";
+		public static final String STATUS = "status";
+		public static final String REASON = "reason";
+		public static final String ERROR = "error";
 
-		class CommType {
-			private static final String MATCH_CONNECT = "MatchConnect";
-			private static final String GAME_MOVE = "GameMove";
-			private static final String GAME_MOVE_RESP = "GameMoveResp";
-			
+		public class CommType {
+			public static final String MATCH_CONNECT = "MatchConnect";
+			public static final String GAME_MOVE = "GameMove";
+			public static final String GAME_MOVE_RESP = "GameMoveResp";
+			public static final String MATCH_END = "MatchEnd";
+			public static final String GAME_PIECE_STATE="GamePieceState";
+			public static final String GAME_END = "GameEnd";
+			public static final String GAME_BOARD_STATE = "GameBoardState";
 		}
 	}
 

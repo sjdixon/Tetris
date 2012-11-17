@@ -8,9 +8,12 @@ import java.net.*;
 
 import algorithms.IAlgorithm;
 import algorithms.LuckysAlgorithm;
+import blocks.IBlock;
 import data.Chromosome;
 import data.IChromosome;
 import data.IWell;
+import networking.Communication.MessageOrigin;
+
 import org.json.*;
 
 import data.Well;
@@ -18,7 +21,15 @@ import data.Well;
 final class Client
 {
 	public static GameInfo gameInfo;
+	public static MessageManager manager = new MessageManager();
 	public static boolean testMatch = true;
+	public static boolean gameOver = false;
+
+	public static IWell well;
+	public static final int HEIGHT=20, WIDTH=10;
+	public static IAlgorithm algorithm;
+	public static IChromosome chromosome;
+	public static IBlock currentPiece;
 	
 	public static void main(String[] args)
 	{
@@ -68,14 +79,29 @@ final class Client
 
 		///
 		/// ADD ALGORITHM
-		int numGames = 19;
+		int numGames = 7;
 		int numGamesWon = 0;
 		int numGamesLost = 0;
 		for(int game=0; game < numGames; game++){
 			initializeAlgorithm();
-			boolean gameOver = false;
+			gameOver = false;
 			while(!gameOver){
 				// Receive messages, send moves
+				// Listen for game state
+				String message = comm.receive(MessageOrigin.PublishSocket);
+				MessageManager.interpretMessage(message);
+				
+				message = comm.receive(MessageOrigin.PublishSocket);
+				MessageManager.interpretMessage(message);
+				
+				algorithm.setCurrentPiece(currentPiece);
+				IBlock bestMove = algorithm.calculateBestMove();
+				String moves = bestMove.getPath();
+				String[] gameMoveMessages = command.createMovesForBlock(moves);
+				System.out.println(gameMoveMessages);
+				for(String i : gameMoveMessages){
+					comm.send(i);
+				}
 				
 			}
 		}
@@ -91,16 +117,11 @@ final class Client
 			System.out.println("usage: Client <team-name> <team-password> <match-token> <host-name>");
 	}
 	
-	protected static IWell well;
-	protected static final int HEIGHT=20, WIDTH=10;
-	protected static IAlgorithm algorithm;
-	protected static IChromosome chromosome;
 	
 	public static void initializeAlgorithm(){
 		well = new Well(HEIGHT, WIDTH);
 		chromosome = createChromosome();
-		algorithm = new LuckysAlgorithm(well, chromosome);
-		
+		algorithm = new LuckysAlgorithm(well, chromosome);	
 	}
 	
 	public static IChromosome createChromosome(){
