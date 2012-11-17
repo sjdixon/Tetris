@@ -174,8 +174,8 @@ final class Client
 		
 		try {
 			JSONObject json = new JSONObject(result);
-			matchToken = json.getString("match_token");
-			hostName = json.getString("server_ip");
+			matchToken = json.getString(Command.Key.CLIENT_TOKEN);
+			hostName = json.getString(Command.Key.SERVER_IP);
 			System.out.println(matchToken);
 		} catch (JSONException e) {
 			System.err.println(e.getMessage());
