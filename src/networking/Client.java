@@ -98,12 +98,11 @@ final class Client
 				
 				algorithm.setCurrentPiece(currentPiece);
 				IBlock bestMove = algorithm.calculateBestMove();
-				bestMove.setPath("drop");
 				String moves = bestMove.getPath();
 				String[] gameMoveMessages = command.createMovesForBlock(moves);
 				System.out.println(gameMoveMessages);
 				for(String i : gameMoveMessages){
-					comm.send(i);
+					//comm.send(i);
 				}
 				
 			}
