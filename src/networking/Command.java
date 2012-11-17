@@ -12,11 +12,19 @@ final class Command
 		private static final String MATCH_TOKEN = "match_token";
 		private static final String PASSWORD = "password";
 		private static final String MOVE = "move";
-		private static int piece_number = 0;
+		private static final String PIECE_NUMBER = "piece_number";
+		private static final String RESP = "resp";
+		private static final String MESSAGE = "message";
+		private static final String SERVER_IP = "server_ip";
+		private static final String STATUS = "status";
+		private static final String REASON = "reason";
+		private static final String ERROR = "error";
 
 		class CommType {
 			private static final String MATCH_CONNECT = "MatchConnect";
 			private static final String GAME_MOVE = "GameMove";
+			private static final String GAME_MOVE_RESP = "GameMoveResp";
+			
 		}
 	}
 
@@ -37,6 +45,8 @@ final class Command
 		return json.toString();
 	}
 	
+	protected static int sequenceNumber;
+	
 	public String createGameMoveCommand(String move){
 		JSONObject json = new JSONObject();
 		
@@ -44,6 +54,7 @@ final class Command
 			json.put(Key.COMM_TYPE, Key.CommType.GAME_MOVE);
 			json.put(Key.CLIENT_TOKEN, Client.gameInfo.getClientToken());
 			json.put(Key.MOVE, move);
+			//json.put(Key.PIECE_NUMBER, sequenceNumber);
 		}
 		catch(JSONException e){
 			
