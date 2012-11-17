@@ -3,32 +3,35 @@ package networking;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream.GetField;
-import java.net.HttpURLConnection;
-import java.net.URL;
+
+import java.net.*;
 
 import algorithms.IAlgorithm;
 import algorithms.LuckysAlgorithm;
 import data.Chromosome;
 import data.IChromosome;
 import data.IWell;
+import org.json.*;
+
 import data.Well;
 
 final class Client
 {
 	public static GameInfo gameInfo;
-	public static boolean testMatch = false;
+	public static boolean testMatch = true;
 	
 	public static void main(String[] args)
 	{
 		Client.run(args);
 	}
 
+	static String teamName = null;
+	static String matchToken = null;
+	static String teamPassword = null;
+	static String hostName = null;
+
 	public static void run(String[] args)
 	{
-		String teamName = null;
-		String matchToken = null;
-		String teamPassword = null;
-		String hostName = null;
 
 		if(args.length < 4) {
 			Client.printHelp();
@@ -39,10 +42,7 @@ final class Client
 		teamPassword = args[1];
 		matchToken = args[2];
 		if(testMatch==true){
-			String url = "http://codingcontest.pason.com/scheduler/create_unauthenticated_test_match?team_name=team 126&password=C11h22.o12";
-			String jsonTestResponse = getHTML(hostName);
-			
-			
+			createTestMatch();
 		}
 		else hostName = args[3];
 		Communication.setHostName(hostName);
@@ -137,5 +137,22 @@ final class Client
 	      return result;
 	   }
 	
+	public static void createTestMatch(){
+		String url = "http://codingcontest.pason.com";
+		String extra = "/scheduler/create_unauthenticated_test_match?team_name=team%20126&password=C11h22.o12";
+		String result = getHTML(url+extra);
+		System.out.println(result);
+		
+		try {
+			JSONObject json = new JSONObject(result);
+			matchToken = json.getString("match_token");
+			hostName = json.getString("server_ip");
+			System.out.println(matchToken);
+		} catch (JSONException e) {
+			System.err.println(e.getMessage());
+			e.printStackTrace();
+		}
+		
+	}
 	
 }
