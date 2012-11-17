@@ -127,7 +127,12 @@ public class Well implements IWell{
 
 	@Override
 	public void readHexadecimalBoard(String hexadecimal) {
-		// TODO Auto-generated method stub
+		byte[] wellBitMap = hexadecimal.getBytes();
+		for(int i=0; i < height; i++){
+			for(int j=0; j < width; j++){
+				int bitIndex = (19-i);
+			}
+		}
 		
 	}
 }

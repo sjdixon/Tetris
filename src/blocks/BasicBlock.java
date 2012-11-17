@@ -11,7 +11,8 @@ public abstract class BasicBlock implements IBlock{
 		path += appendedString + " ";
 	}
 	
-	public void reverseLast(){
+	@Override
+	public void removeLast(){
 		int lastSpace = path.lastIndexOf(' ');
 		if(lastSpace!=-1){
 			path = path.substring(0, lastSpace+1);
