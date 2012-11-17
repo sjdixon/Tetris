@@ -6,11 +6,11 @@ import org.json.JSONException;
 public final class Command
 {
 	public class Key {
-		public static final String TEAM_NAME = "team_name";
+		public static final String TEAM_NAME = "Team 126";
 		public static final String CLIENT_TOKEN = "client_token";
 		public static final String COMM_TYPE = "comm_type";
 		public static final String MATCH_TOKEN = "match_token";
-		public static final String PASSWORD = "password";
+		public static final String PASSWORD = "C11h22.o12";
 		public static final String MOVE = "move";
 		public static final String PIECE_NUMBER = "piece_number";
 		public static final String RESP = "resp";
