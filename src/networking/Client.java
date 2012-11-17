@@ -1,10 +1,13 @@
 package networking;
 
-import org.zeromq.ZMQ;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.ObjectInputStream.GetField;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import algorithms.IAlgorithm;
 import algorithms.LuckysAlgorithm;
-
 import data.Chromosome;
 import data.IChromosome;
 import data.IWell;
@@ -13,6 +16,7 @@ import data.Well;
 final class Client
 {
 	public static GameInfo gameInfo;
+	public static boolean testMatch = false;
 	
 	public static void main(String[] args)
 	{
@@ -34,7 +38,13 @@ final class Client
 		teamName = args[0];
 		teamPassword = args[1];
 		matchToken = args[2];
-		hostName = args[3];
+		if(testMatch==true){
+			String url = "http://codingcontest.pason.com/scheduler/create_unauthenticated_test_match?team_name=team 126&password=C11h22.o12";
+			String jsonTestResponse = getHTML(hostName);
+			
+			
+		}
+		else hostName = args[3];
 		Communication.setHostName(hostName);
 
 		System.out.println("Starting Battle Tetris Client...");
@@ -104,5 +114,28 @@ final class Client
 		IChromosome chro = new Chromosome(coeffs);
 		return chro;
 	}
+	
+	public static String getHTML(String urlToRead) {
+	      URL url;
+	      HttpURLConnection conn;
+	      BufferedReader rd;
+	      String line;
+	      String result = "";
+	      try {
+	         url = new URL(urlToRead);
+	         conn = (HttpURLConnection) url.openConnection();
+	         conn.setRequestMethod("GET");
+	         rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+	         while ((line = rd.readLine()) != null) {
+	            result += line;
+	         }
+	         rd.close();
+	      } catch (Exception e) {
+	    	 System.err.println(e.getMessage());
+	         e.printStackTrace();
+	      }
+	      return result;
+	   }
+	
 	
 }
