@@ -55,9 +55,10 @@ final class Client
 		matchToken = args[2];
 		if(testMatch==true){
 			createTestMatch();
+			/*
 			Scanner sc = new Scanner(System.in);
 			System.out.println("Press enter");
-			sc.next();
+			sc.next();*/
 		}
 		else hostName = args[3];
 		Communication.setHostName(hostName);
