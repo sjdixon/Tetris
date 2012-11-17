@@ -12,6 +12,8 @@ import data.Well;
 
 final class Client
 {
+	public static GameInfo gameInfo;
+	
 	public static void main(String[] args)
 	{
 		Client.run(args);
@@ -52,7 +54,7 @@ final class Client
 		System.out.println("Received client token... " + clientToken);
 
 		// the GameInfo object will hold the client's name, token, game type, etc.
-		GameInfo gameInfo = new GameInfo(clientToken, teamName);
+		gameInfo = new GameInfo(clientToken, teamName);
 
 		///
 		/// ADD ALGORITHM

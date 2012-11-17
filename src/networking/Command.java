@@ -11,6 +11,8 @@ final class Command
 		private static final String COMM_TYPE = "comm_type";
 		private static final String MATCH_TOKEN = "match_token";
 		private static final String PASSWORD = "password";
+		private static final String MOVE = "move";
+		private static int piece_number = 0;
 
 		class CommType {
 			private static final String MATCH_CONNECT = "MatchConnect";
@@ -35,16 +37,27 @@ final class Command
 		return json.toString();
 	}
 	
-	public String createGameMoveCommand(String path){
+	public String createGameMoveCommand(String move){
 		JSONObject json = new JSONObject();
+		
 		try{
 			json.put(Key.COMM_TYPE, Key.CommType.GAME_MOVE);
+			json.put(Key.CLIENT_TOKEN, Client.gameInfo.getClientToken());
+			json.put(Key.MOVE, move);
 		}
 		catch(JSONException e){
 			
 		}
-		String gameMove = json.toString();
-		return gameMove;
+		return json.toString();
+	}
+	
+	public String[] createMovesForBlock(String path){
+		String[] moves = path.split(" ");
+		String[] moveCommands = new String[moves.length];
+		for(int i=0; i < moves.length; i++){
+			moveCommands[i] = createGameMoveCommand(moves[i]);
+		}
+		return moveCommands;
 	}
 	
 	
