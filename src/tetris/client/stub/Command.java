@@ -14,6 +14,7 @@ final class Command
 
 		class CommType {
 			private static final String MATCH_CONNECT = "MatchConnect";
+			private static final String GAME_MOVE = "GameMove";
 		}
 	}
 
@@ -32,6 +33,18 @@ final class Command
 		}
 
 		return json.toString();
+	}
+	
+	public String createGameMoveCommand(String path){
+		JSONObject json = new JSONObject();
+		try{
+			json.put(Key.COMM_TYPE, Key.CommType.GAME_MOVE);
+		}
+		catch(JSONException e){
+			
+		}
+		String gameMove = json.toString();
+		return gameMove;
 	}
 	
 	
