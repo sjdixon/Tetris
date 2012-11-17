@@ -90,12 +90,15 @@ final class Client
 				// Listen for game state
 				String message = comm.receive(MessageOrigin.PublishSocket);
 				MessageManager.interpretMessage(message);
+				System.out.println(message);
 				
 				message = comm.receive(MessageOrigin.PublishSocket);
 				MessageManager.interpretMessage(message);
+				System.out.println(message);
 				
 				algorithm.setCurrentPiece(currentPiece);
 				IBlock bestMove = algorithm.calculateBestMove();
+				bestMove.setPath("drop");
 				String moves = bestMove.getPath();
 				String[] gameMoveMessages = command.createMovesForBlock(moves);
 				System.out.println(gameMoveMessages);

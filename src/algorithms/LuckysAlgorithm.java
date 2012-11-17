@@ -42,6 +42,7 @@ public class LuckysAlgorithm implements IAlgorithm {
 		double[] scores = calculateAllScores(moves);
 		int bestScoreIndex = calculateIndexOfMinimum(scores);
 		bestMove = moves[bestScoreIndex];
+		
 		return bestMove;
 	}
 	
